@@ -100,7 +100,13 @@ const LoadingSpinner = () => {
             </View>
           }
           {text && (
-            <Text variant="h3" fontFamily="SFMONO" style={styles.text}>
+            <Text
+              variant="h3"
+              fontFamily="SFMONO"
+              fontVariant="Medium"
+              className="text-center font-bold text-white"
+              style={styles.text}
+            >
               {text}
             </Text>
           )}

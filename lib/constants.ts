@@ -4,7 +4,7 @@ export const NAV_THEME = {
     border: "hsl(160 6% 90%)", // border
     card: "hsl(0 0% 98%)", // card
     notification: "hsl(0 84% 60%)", // destructive
-    primary: "hsl(160 59% 35%)", // primary
+    primary: "hsl(160 59% 45%)", // primary
     text: "hsl(150 8% 5%)", // foreground
   },
   dark: {
