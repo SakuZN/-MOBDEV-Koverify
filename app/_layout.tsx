@@ -84,7 +84,7 @@ export default function RootLayout() {
   if (!isColorSchemeLoaded || !(loaded || error)) {
     return null;
   }
-  console.log(isDarkColorScheme)
+  console.log(isDarkColorScheme);
 
   return (
     <ReactQueryProvider>

@@ -65,3 +65,64 @@
         --ring: 160 59% 40%;
     }
 }
+
+.start-container {
+    height: 100%;
+    width: 100%;
+    align-content: center;
+    justify-content: center;
+    border-radius: 0.3125rem;
+    background: linear-gradient(180deg, #88F07C 0%, #248C2C 100%);
+
+    display: flex;
+    padding: 4rem 2.5rem !important;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    gap: 17rem;
+}
+
+.start-container .start-main{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2.5rem;
+}
+
+.start-container h1 {
+    color: #FFF;
+    font-family: "SF Mono";
+    font-size: 2.5rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 3rem; /* 100% */
+
+}
+
+.start-container button{
+    display: flex;
+    flex-direction: row;
+    padding: .75rem 1.5rem;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+
+    border-radius: 0.3125rem;
+    background: linear-gradient(180deg, #E9EDF1 0%, #DDDFE1 100%);
+    box-shadow: 0px 8px 22px 0px rgba(0, 0, 0, 0.20);
+
+    color: #111;
+    font-family: "SF Mono";
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 60%; /* 0.525rem */
+}
+
+.start-progress-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.625rem;
+    align-self: stretch;
+}
