@@ -1,83 +1,118 @@
 import { View } from "react-native";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Circle } from "lucide-react-native";
-import { router } from "expo-router";
+import { MoveRight } from "@/lib/icons";
 import { Text } from "@/components/ui/text";
 import { LinearGradient } from "expo-linear-gradient";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  interpolateColor,
+  runOnJS,
+} from "react-native-reanimated";
 
 export default function Index() {
   const [counter, setCounter] = useState(0);
+  const progress = useSharedValue(0);
+  const translateX = useSharedValue(0);
 
-  var header_messages = [
+  const headerMessages = [
     "Welcome to Koverify",
     "Find your products’ nutritional data fast",
     "Scan a barcode or search for your item",
     "⚠️ Not made to replace professional medical help",
   ];
-  var button_text = "Get Started";
-  var header_message = header_messages[counter];
+  const headerMessage = headerMessages[counter];
+  const buttonText = counter === 0 ? "Get Started" : "Continue";
 
-  const changeText = () => {
-    setCounter(counter + 1);
-
-    if (counter === 3) {
-      //router.replace("/(home)/");
-    }
+  const updateCounter = () => {
+    setCounter((prev) => (prev === 3 ? 0 : prev + 1));
   };
 
+  const changeText = () => {
+    // Slide out to the left
+    translateX.value = withTiming(-300, { duration: 300 }, () => {
+      // Once the slide-out animation is complete, use runOnJS to call updateCounter.
+      runOnJS(updateCounter)();
+
+      // Reset translateX to appear from the right.
+      translateX.value = 300;
+
+      // Animate back to center smoothly.
+      translateX.value = withTiming(0, { duration: 300 });
+    });
+
+    progress.value = withTiming(progress.value === 3 ? 0 : progress.value + 1, {
+      duration: 300,
+    });
+  };
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: translateX.value }],
+  }));
+
+  const circleAnimatedStyle = (index: number) =>
+    useAnimatedStyle(() => {
+      const backgroundColor = interpolateColor(
+        progress.value,
+        [index - 1, index, index + 1],
+        ["#9B9CA8", "#C8CADB", "#9B9CA8"],
+      );
+
+      return {
+        backgroundColor,
+      };
+    });
+
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-      }}
-    >
+    <SafeAreaView style={{ flex: 1 }}>
       <LinearGradient
-        // Background Linear Gradient
         colors={["#88F07C", "#248C2C"]}
         start={[0, 0]}
         end={[1, 1]}
-        className="flex-1 items-center justify-center"
-        style={{
-          padding: 20,
-        }}
+        className="flex-1 items-center justify-center p-10"
       >
-        <View className="mb-64 flex flex-col items-end gap-10">
-          <Text className="text-3xl font-bold text-white">
-            {header_message}
-          </Text>
+        <View className="flex flex-col items-end gap-10">
+          <Animated.View style={animatedStyle}>
+            <Text
+              fontFamily="SFMONO"
+              fontVariant="Bold"
+              className="text-4xl text-white"
+            >
+              {headerMessage}
+            </Text>
+          </Animated.View>
+
           <Button
             onPress={changeText}
-            className="flex-row items-center rounded-md bg-gray-100 p-4 shadow-lg"
+            className="flex flex-row items-center gap-2 rounded-md bg-gray-100 shadow-lg"
           >
-            <Text className="text-base font-semibold text-black">
-              {counter === 3 ? "Get Started" : "Next"}
+            <Text
+              fontFamily="SFMONO"
+              fontVariant="Semibold"
+              className="text-base text-black"
+            >
+              {buttonText}
             </Text>
-            <ArrowRight height={20} width={20} />
+            <MoveRight height={20} width={20} className="mt-1 text-black" />
           </Button>
         </View>
-        <View className="flex-row items-center justify-end gap-2 self-stretch">
-          <Circle
-            height={12}
-            width={12}
-            color={counter === 0 ? "#C8CADB" : "#9B9CA8"}
-          />
-          <Circle
-            height={12}
-            width={12}
-            color={counter === 1 ? "#C8CADB" : "#9B9CA8"}
-          />
-          <Circle
-            height={12}
-            width={12}
-            color={counter === 2 ? "#C8CADB" : "#9B9CA8"}
-          />
-          <Circle
-            height={12}
-            width={12}
-            color={counter === 3 ? "#C8CADB" : "#9B9CA8"}
-          />
+        <View className="absolute bottom-16 right-16 flex flex-row items-center justify-end gap-2 self-stretch p-5">
+          {[0, 1, 2, 3].map((index) => (
+            <Animated.View
+              key={index}
+              style={[
+                {
+                  width: 12,
+                  height: 12,
+                  borderRadius: 6,
+                },
+                circleAnimatedStyle(index),
+              ]}
+            />
+          ))}
         </View>
       </LinearGradient>
     </SafeAreaView>
