@@ -12,6 +12,7 @@ import Animated, {
   interpolateColor,
   runOnJS,
 } from "react-native-reanimated";
+import { cn } from "@/lib/utils";
 
 export default function Index() {
   const [counter, setCounter] = useState(0);
@@ -79,7 +80,10 @@ export default function Index() {
             <Text
               fontFamily="SFMONO"
               fontVariant="Bold"
-              className="text-4xl text-white"
+              className={cn(
+                "text-white",
+                counter === 0 ? "text-5xl" : "text-4xl",
+              )}
             >
               {headerMessage}
             </Text>
