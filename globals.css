@@ -116,14 +116,80 @@
     line-height: 60%; /* 0.525rem */
 }
 
+.card-main-text{
+    color: #1A1A1A;
+    font-family: Inter;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.card-secondary-text{
+    color: #1A1A1A;
+    font-family: Inter;
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.card-label-text{
+    color: #212121;
+    text-align: center;
+    font-family: "SF Mono";
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0.15625rem;
+}
+
+.card-item-text{
+    color: #1A1A1A;
+    font-family: Inter;
+    font-size: 0.9rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.muted-text::placeholder{
+    color: #1A1A1A;
+    text-align: justify;
+    font-family: "SF Pro";
+    font-size: 0.9rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 1.125rem */
+    letter-spacing: 0.0375rem;
+}
+
+.muted-text{
+    color: #1A1A1A;
+    text-align: justify;
+    font-family: "SF Pro";
+    font-size: 0.9rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%; /* 1.125rem */
+    letter-spacing: 0.0375rem;
+}
+
 .panel{
     border-radius: 0.5rem;
     border: 2px solid #535353;
     background: #FCFCFC;
     box-shadow: 2px 4px 10px 0px rgba(0, 0, 0, 0.12);
+}
+
+.panel .home{
     max-width: 48.5%;
 }
 
-.pb-45 {
-    padding-bottom: 1.125rem;
+.searchbar{
+    border-radius: 0.5rem;
+    border: 2px solid #535353;
+    background: #FCFCFC;
+    box-shadow: 2px 4px 10px 0px rgba(0, 0, 0, 0.12);
 }

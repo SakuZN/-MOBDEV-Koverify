@@ -85,7 +85,7 @@ const Index = () => {
                 </Button>
               </View>
               <View className="flex flex-row items-start gap-2.5 self-stretch">
-                <Button className="panel flex flex-1 flex-col items-end gap-3.5 p-5 pb-4">
+                <Button className="panel flex max-w-[48.5%] flex-1 flex-col items-end gap-3.5 p-5 pb-4">
                   <Cat size={40} color={"#248C69"} />
                   <Text className="secondary-text">Veterinary Drugs</Text>
                 </Button>
