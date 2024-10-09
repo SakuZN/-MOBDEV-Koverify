@@ -4,6 +4,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Circle } from "lucide-react-native";
 import { router } from "expo-router";
+import { Text } from "@/components/ui/text";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function Index() {
   const [counter, setCounter] = useState(0);
@@ -20,26 +22,64 @@ export default function Index() {
   const changeText = () => {
     setCounter(counter + 1);
 
-    if (counter == 3) {
-      router.replace("/(home)/");
+    if (counter === 3) {
+      //router.replace("/(home)/");
     }
   };
 
   return (
-    <SafeAreaView className="start-container">
-      <View className="start-main">
-        <h1>{header_message}</h1>
-        <Button onPress={changeText}>
-          <span>{button_text}</span>
-          <ArrowRight height={20} width={20} />
-        </Button>
-      </View>
-      <div className="start-progress-buttons">
-        <Circle height={12} width={12} color="#C8CADB" />
-        <Circle height={12} width={12} color="#9B9CA8" />
-        <Circle height={12} width={12} color="#9B9CA8" />
-        <Circle height={12} width={12} color="#9B9CA8" />
-      </div>
+    <SafeAreaView
+      style={{
+        flex: 1,
+      }}
+    >
+      <LinearGradient
+        // Background Linear Gradient
+        colors={["#88F07C", "#248C2C"]}
+        start={[0, 0]}
+        end={[1, 1]}
+        className="flex-1 items-center justify-center"
+        style={{
+          padding: 20,
+        }}
+      >
+        <View className="mb-64 flex flex-col items-end gap-10">
+          <Text className="text-3xl font-bold text-white">
+            {header_message}
+          </Text>
+          <Button
+            onPress={changeText}
+            className="flex-row items-center rounded-md bg-gray-100 p-4 shadow-lg"
+          >
+            <Text className="text-base font-semibold text-black">
+              {counter === 3 ? "Get Started" : "Next"}
+            </Text>
+            <ArrowRight height={20} width={20} />
+          </Button>
+        </View>
+        <View className="flex-row items-center justify-end gap-2 self-stretch">
+          <Circle
+            height={12}
+            width={12}
+            color={counter === 0 ? "#C8CADB" : "#9B9CA8"}
+          />
+          <Circle
+            height={12}
+            width={12}
+            color={counter === 1 ? "#C8CADB" : "#9B9CA8"}
+          />
+          <Circle
+            height={12}
+            width={12}
+            color={counter === 2 ? "#C8CADB" : "#9B9CA8"}
+          />
+          <Circle
+            height={12}
+            width={12}
+            color={counter === 3 ? "#C8CADB" : "#9B9CA8"}
+          />
+        </View>
+      </LinearGradient>
     </SafeAreaView>
   );
 }

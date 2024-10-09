@@ -107,7 +107,12 @@ export default function RootLayout() {
                   headerRight: () => <ThemeToggle />,
                 }}
               >
-                <Stack.Screen name="index" />
+                <Stack.Screen
+                  name="index"
+                  options={{
+                    headerShown: false,
+                  }}
+                />
               </Stack>
               <LoadingSpinner />
               <PortalHost />
