@@ -13,11 +13,11 @@
         --popover: 0 0% 98%;
         --popover-foreground: 150 8% 5%;
 
-        --primary: 160 59% 45%;
-        --primary-foreground: 0 0% 98%;
+        --primary: 0, 0%, 99%;
+        --primary-foreground: 0 0% 10%;
 
-        --secondary: 150 7% 94%;
-        --secondary-foreground: 150 8% 5%;
+        --secondary: 0 0% 10%;
+        --secondary-foreground: 0 0% 100%;
 
         --muted: 150 7% 94%;
         --muted-foreground: 159 6% 45%;
@@ -45,11 +45,11 @@
         --popover: 120 3% 6%;
         --popover-foreground: 0 0% 98%;
 
-        --primary: 160 59% 35%;
-        --primary-foreground: 0 0% 98%;
+        --primary: 0 0% 99%;
+        --primary-foreground: 0 0% 10%;
 
-        --secondary: 180 2% 12%;
-        --secondary-foreground: 0 0% 98%;
+        --secondary: 0 0% 10%;
+        --secondary-foreground: 0 0% 100%;
 
         --muted: 150 2% 18%;
         --muted-foreground: 168 2% 49%;
@@ -66,63 +66,64 @@
     }
 }
 
-.start-container {
-    height: 100%;
-    width: 100%;
-    align-content: center;
-    justify-content: center;
-    border-radius: 0.3125rem;
-    background: linear-gradient(180deg, #88F07C 0%, #248C2C 100%);
-
-    display: flex;
-    padding: 4rem 2.5rem !important;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-start;
-    gap: 17rem;
-}
-
-.start-container .start-main{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 2.5rem;
-}
-
-.start-container h1 {
+.text-start{
     color: #FFF;
     font-family: "SF Mono";
-    font-size: 2.5rem;
+    font-size: 3rem;
     font-style: normal;
     font-weight: 700;
     line-height: 3rem; /* 100% */
-
 }
 
-.start-container button{
-    display: flex;
-    flex-direction: row;
-    padding: .75rem 1.5rem;
-    justify-content: center;
-    align-items: center;
-    gap: 0.625rem;
-
-    border-radius: 0.3125rem;
-    background: linear-gradient(180deg, #E9EDF1 0%, #DDDFE1 100%);
-    box-shadow: 0px 8px 22px 0px rgba(0, 0, 0, 0.20);
-
-    color: #111;
+.display-text{
+    color: #248C69;
     font-family: "SF Mono";
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+    letter-spacing: 0.225rem;
+}
+
+.header-text{
+    color: #1A1A1A;
+    leading-trim: both;
+    text-edge: cap;
+    font-family: "SF Pro Display";
+    font-size: 1.15rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1rem;
+}
+
+.secondary-text{
+    color: #1A1A1A;
+    leading-trim: both;
+    text-edge: cap;
+    font-family: "SF Pro Display";
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1rem;
+}
+
+.text-mono{
+    color: var(--Backgrounds-Mono-Slight-Black, #111);
+    font-family: "SF_MONO";
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 600;
     line-height: 60%; /* 0.525rem */
 }
 
-.start-progress-buttons {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 0.625rem;
-    align-self: stretch;
+.panel{
+    border-radius: 0.5rem;
+    border: 2px solid #535353;
+    background: #FCFCFC;
+    box-shadow: 2px 4px 10px 0px rgba(0, 0, 0, 0.12);
+    max-width: 48.5%;
+}
+
+.pb-45 {
+    padding-bottom: 1.125rem;
 }

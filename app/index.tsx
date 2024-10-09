@@ -13,6 +13,7 @@ import Animated, {
   runOnJS,
 } from "react-native-reanimated";
 import { cn } from "@/lib/utils";
+import { router } from "expo-router";
 
 export default function Index() {
   const [counter, setCounter] = useState(0);
@@ -30,6 +31,9 @@ export default function Index() {
 
   const updateCounter = () => {
     setCounter((prev) => (prev === 3 ? 0 : prev + 1));
+    if (counter === 3) {
+      router.replace("/(homepage)");
+    }
   };
 
   const changeText = () => {
@@ -73,7 +77,7 @@ export default function Index() {
         colors={["#88F07C", "#248C2C"]}
         start={[0, 0]}
         end={[1, 1]}
-        className="flex-1 items-center justify-center p-10"
+        className="flex-1 items-center justify-center p-8"
       >
         <View className="flex flex-col items-end gap-10">
           <Animated.View style={animatedStyle}>
@@ -91,19 +95,19 @@ export default function Index() {
 
           <Button
             onPress={changeText}
-            className="flex flex-row items-center gap-2 rounded-md bg-gray-100 shadow-lg"
+            className="flex flex-row items-center gap-2 rounded-md bg-gray-100 px-6 py-2 shadow-lg"
           >
             <Text
               fontFamily="SFMONO"
               fontVariant="Semibold"
-              className="text-base text-black"
+              className="text-mono"
             >
               {buttonText}
             </Text>
             <MoveRight height={20} width={20} className="mt-1 text-black" />
           </Button>
         </View>
-        <View className="absolute bottom-16 right-16 flex flex-row items-center justify-end gap-2 self-stretch p-5">
+        <View className="absolute bottom-20 right-6 flex flex-row items-center justify-end gap-2 self-stretch p-5">
           {[0, 1, 2, 3].map((index) => (
             <Animated.View
               key={index}
