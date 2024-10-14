@@ -93,7 +93,6 @@
     font-size: 1.15rem;
     font-style: normal;
     font-weight: 600;
-    line-height: 1rem;
 }
 
 .secondary-text{
@@ -104,7 +103,6 @@
     font-size: 1rem;
     font-style: normal;
     font-weight: 500;
-    line-height: 1rem;
 }
 
 .text-mono{
@@ -157,7 +155,7 @@
 .muted-text::placeholder{
     color: #1A1A1A;
     text-align: justify;
-    font-family: "SF Pro";
+    font-family: "SFPRO";
     font-size: 0.9rem;
     font-style: normal;
     font-weight: 400;
@@ -168,7 +166,7 @@
 .muted-text{
     color: #1A1A1A;
     text-align: justify;
-    font-family: "SF Pro";
+    font-family: "SFPRO";
     font-size: 0.9rem;
     font-style: normal;
     font-weight: 400;
@@ -177,7 +175,7 @@
 }
 
 .panel{
-    border-radius: 0.5rem;
+    border-radius: 0.75rem;
     border: 2px solid #535353;
     background: #FCFCFC;
     box-shadow: 2px 4px 10px 0px rgba(0, 0, 0, 0.12);
@@ -188,7 +186,7 @@
 }
 
 .searchbar{
-    border-radius: 0.5rem;
+    border-radius: 0.75rem;
     border: 2px solid #535353;
     background: #FCFCFC;
     box-shadow: 2px 4px 10px 0px rgba(0, 0, 0, 0.12);

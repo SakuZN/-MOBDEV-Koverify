@@ -30,10 +30,10 @@ export default function Index() {
   const buttonText = counter === 0 ? "Get Started" : "Continue";
 
   const updateCounter = () => {
-    setCounter((prev) => (prev === 3 ? 0 : prev + 1));
     if (counter === 3) {
       router.replace("/(homepage)");
     }
+    setCounter((prev) => (prev === 3 ? 0 : prev + 1));
   };
 
   const changeText = () => {
@@ -121,6 +121,26 @@ export default function Index() {
               ]}
             />
           ))}
+        </View>
+        <View className="absolute bottom-5 right-6 flex flex-row items-center justify-end gap-2 self-stretch p-5">
+          <Button
+            className="flex flex-row items-center gap-2 rounded-md bg-gray-100 px-4 py-1 shadow-lg"
+            size={"sm"}
+            onPress={() => {
+              router.replace("/(homepage)");
+            }}
+          >
+            <Text
+              fontFamily="SFMONO"
+              fontVariant="Semibold"
+              className="text-mono"
+              style={{
+                fontSize: 10,
+              }}
+            >
+              Skip
+            </Text>
+          </Button>
         </View>
       </LinearGradient>
     </SafeAreaView>
