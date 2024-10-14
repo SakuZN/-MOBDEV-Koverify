@@ -4,6 +4,7 @@ import { View } from "react-native";
 import { Text } from "@/components/ui/text";
 import { Button } from "@/components/ui/button";
 import { Moon, Scan } from "lucide-react-native";
+import { router } from "expo-router";
 
 export default function HomepageLayout() {
   return (
@@ -23,7 +24,13 @@ export default function HomepageLayout() {
                   <Moon size={12} color={"#fff"} />
                 </Button>
 
-                <Button className="flex items-center rounded bg-secondary p-2 text-secondary shadow-sm">
+                <Button
+                  className="flex items-center rounded bg-secondary p-2 text-secondary shadow-sm"
+                  onPress={() => {
+                    //@ts-ignore
+                    router.push("/(camera)");
+                  }}
+                >
                   <Scan size={12} color={"#fff"} />
                 </Button>
               </View>
