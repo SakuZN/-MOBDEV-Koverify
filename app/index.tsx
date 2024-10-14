@@ -99,7 +99,7 @@ export default function Index() {
           >
             <Text
               fontFamily="SFMONO"
-              fontVariant="Semibold"
+              fontVariant="SemiBold"
               className="text-mono"
             >
               {buttonText}
@@ -132,7 +132,7 @@ export default function Index() {
           >
             <Text
               fontFamily="SFMONO"
-              fontVariant="Semibold"
+              fontVariant="SemiBold"
               className="text-mono"
               style={{
                 fontSize: 10,

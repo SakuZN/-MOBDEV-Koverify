@@ -5,6 +5,19 @@ import * as ICONS from "@/lib/icons";
 import { ProductType } from "@/constants/types";
 import ProductCategories from "@/components/Homepage/ProductCategories";
 
+const QuickActions: ProductType[] = [
+  {
+    title: "Scan Barcode",
+    icon: ICONS.ScanLine,
+    type: "camera",
+  },
+  {
+    title: "View All Products",
+    icon: ICONS.Circle,
+    type: "all-products",
+  },
+];
+
 const DrugTypeList: ProductType[] = [
   {
     title: "All Drug Products",
@@ -57,6 +70,11 @@ const Index = () => {
       <ScrollView>
         <View className="flex flex-1 flex-col items-stretch gap-4 px-6 py-3">
           <View className="flex flex-col items-start gap-6 self-stretch">
+            <ProductCategories
+              title={"Quick Actions"}
+              products={QuickActions}
+              route={"quick-actions"}
+            />
             <ProductCategories
               title={"View Food Products"}
               products={FoodTypeList}

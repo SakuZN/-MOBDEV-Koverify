@@ -28,7 +28,7 @@ export default function HomepageLayout() {
                   className="flex items-center rounded bg-secondary p-2 text-secondary shadow-sm"
                   onPress={() => {
                     //@ts-ignore
-                    router.push("/(camera)");
+                    router.push("/camera");
                   }}
                 >
                   <Scan size={12} color={"#fff"} />

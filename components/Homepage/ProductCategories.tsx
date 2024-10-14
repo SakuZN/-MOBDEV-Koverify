@@ -25,7 +25,7 @@ const ProductCategories = ({ title, products, route }: Props) => {
     <View className="flex flex-col items-start gap-2.5 self-stretch">
       <Text
         fontFamily="SFPRO_DISPLAY"
-        fontVariant="Semibold"
+        fontVariant="SemiBold"
         className="text-primary-foreground"
       >
         {title}
@@ -43,11 +43,15 @@ const ProductCategories = ({ title, products, route }: Props) => {
                 pair.length === 1 ? "max-w-[48.5%]" : "",
               )}
               onPress={() => {
-                router.push({
-                  //@ts-ignore
-                  pathname: `/${route}/[type]`,
-                  params: { type: product.type },
-                });
+                if (route === "quick-actions") {
+                  router.push(`/${product.type}`);
+                } else {
+                  router.push({
+                    //@ts-ignore
+                    pathname: `/${route}/[type]`,
+                    params: { type: product.type },
+                  });
+                }
               }}
             >
               <product.icon size={40} color={"#248C69"} />
