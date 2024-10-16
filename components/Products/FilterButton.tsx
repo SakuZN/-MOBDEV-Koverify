@@ -124,7 +124,10 @@ const FilterButton = () => {
               </View>
             </View>
             <View className="flex flex-row content-center items-start gap-2 self-stretch">
-              <Button className="flex flex-1 content-center items-center gap-1.5 rounded-3xl bg-[#A7A9AB] py-4">
+              <Button
+                onPress={() => setOpen(false)}
+                className="flex flex-1 content-center items-center gap-1.5 rounded-3xl bg-[#A7A9AB] py-4"
+              >
                 <Text
                   fontFamily="SFPRO_DISPLAY"
                   fontVariant="Regular"
