@@ -107,24 +107,9 @@ export default function Index() {
             <MoveRight height={20} width={20} className="mt-1 text-black" />
           </Button>
         </View>
-        <View className="absolute bottom-20 right-6 flex flex-row items-center justify-end gap-2 self-stretch p-5">
-          {[0, 1, 2, 3].map((index) => (
-            <Animated.View
-              key={index}
-              style={[
-                {
-                  width: 8,
-                  height: 8,
-                  borderRadius: 6,
-                },
-                circleAnimatedStyle(index),
-              ]}
-            />
-          ))}
-        </View>
-        <View className="absolute bottom-5 right-6 flex flex-row items-center justify-end gap-2 self-stretch p-5">
+        <View className="absolute bottom-20 left-0 w-full flex-row items-center justify-between self-stretch p-8">
           <Button
-            className="flex flex-row items-center gap-2 rounded-md bg-gray-100 px-4 py-1 shadow-lg"
+            className="flex flex-row items-center gap-2 rounded-md bg-gray-100 px-5 py-3 shadow-lg"
             size={"sm"}
             onPress={() => {
               router.replace("/(homepage)");
@@ -138,9 +123,24 @@ export default function Index() {
                 fontSize: 10,
               }}
             >
-              Skip
+              SKIP
             </Text>
           </Button>
+          <View className="flex flex-row items-center justify-end gap-2 self-stretch">
+            {[0, 1, 2, 3].map((index) => (
+              <Animated.View
+                key={index}
+                style={[
+                  {
+                    width: 8,
+                    height: 8,
+                    borderRadius: 6,
+                  },
+                  circleAnimatedStyle(index),
+                ]}
+              />
+            ))}
+          </View>
         </View>
       </LinearGradient>
     </SafeAreaView>

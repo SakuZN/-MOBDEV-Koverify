@@ -15,11 +15,11 @@ export default function HomepageLayout() {
           headerBackTitle: "Back",
           headerTitleAlign: "left",
           headerTitle(props) {
-            return <Text className="display-text">Koverify</Text>;
+            return <Text className="display-text pl-3">Koverify</Text>;
           },
           headerRight: () => {
             return (
-              <View className="flex flex-row items-start gap-1.5">
+              <View className="flex flex-row items-start gap-1.5 pr-6">
                 <Button className="flex items-center rounded bg-secondary p-2 text-secondary shadow-sm">
                   <Moon size={12} color={"#fff"} />
                 </Button>
@@ -60,7 +60,7 @@ export default function HomepageLayout() {
             );
           },
           headerRight: () => {
-            return <Text className="display-text">K</Text>;
+            return <Text className="display-text pr-5">K</Text>;
           },
         })}
       />
@@ -85,7 +85,7 @@ export default function HomepageLayout() {
             );
           },
           headerRight: () => {
-            return <Text className="display-text">K</Text>;
+            return <Text className="display-text pr-5">K</Text>;
           },
         })}
       />
@@ -108,7 +108,7 @@ export default function HomepageLayout() {
             );
           },
           headerRight: () => {
-            return <Text className="display-text">K</Text>;
+            return <Text className="display-text pr-5">K</Text>;
           },
         })}
       />
