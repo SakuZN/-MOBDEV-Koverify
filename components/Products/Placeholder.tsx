@@ -3,6 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Text } from "@/components/ui/text";
 import { ArrowLeft, Factory, Filter, Frame, Search } from "lucide-react-native";
 import { Input } from "@/components/ui/input";
+import FilterButton from "./FilterButton";
 
 export default function Placeholder() {
   return (
@@ -13,9 +14,7 @@ export default function Placeholder() {
             <Search strokeWidth={3} size={16} color={"#258C6A"} />
             <Input className="" placeholder="Search" />
           </View>
-          <View className="panel flex items-center justify-center gap-2 self-stretch p-3">
-            <Filter strokeWidth={2} size={20} color={"#258C6A"} />
-          </View>
+          <FilterButton />
         </View>
         <View className="flex flex-col items-start gap-3 self-stretch">
           <View className="panel flex flex-col items-start gap-0.5 self-stretch p-3">

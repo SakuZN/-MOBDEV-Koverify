@@ -114,6 +114,18 @@
     line-height: 60%; /* 0.525rem */
 }
 
+.modal-header{
+    color: #212121;
+    text-align: center;
+    font-family: "SF Pro";
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 590;
+    line-height: normal;
+    letter-spacing: -0.025rem;
+}
+
+
 .card-main-text{
     color: #1A1A1A;
     font-family: Inter;
@@ -190,4 +202,11 @@
     border: 2px solid #535353;
     background: #FCFCFC;
     box-shadow: 2px 4px 10px 0px rgba(0, 0, 0, 0.12);
+}
+
+.border-standard{
+    border-radius: 0.75rem;
+    border: 2px solid #535353;
+    background: #FCFCFC;
+    color: #1A1A1A;
 }

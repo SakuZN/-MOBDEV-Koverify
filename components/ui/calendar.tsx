@@ -55,7 +55,7 @@ const Calendar: React.FC<CalendarProps> = ({
     <>
       <Button
         variant={"outline"}
-        className={cn("flex flex-row gap-3 justify-start", className)}
+        className={cn("flex flex-row justify-start gap-3", className)}
         {...buttonProps}
         onPress={showPicker}
       >
@@ -82,6 +82,7 @@ const Calendar: React.FC<CalendarProps> = ({
       </Button>
       {show && (
         <DateTimePicker
+          className="z-9999"
           value={date}
           mode={mode}
           onChange={handleDateChange}
