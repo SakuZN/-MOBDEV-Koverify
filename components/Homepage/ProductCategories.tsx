@@ -44,7 +44,8 @@ const ProductCategories = ({ title, products, route }: Props) => {
               )}
               onPress={() => {
                 if (route === "quick-actions") {
-                  router.push(`/${product.type}`);
+                  //@ts-ignore
+                  router.push(`/(homepage)/${product.type}`);
                 } else {
                   router.push({
                     //@ts-ignore

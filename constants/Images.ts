@@ -1,3 +1,6 @@
-//add image here
-//import YourImage from "../assets/images/imagefile.png";
-//export { YourImage };
+//@ts-ignore
+import camera from "@/assets/images/camera.png";
+//@ts-ignore
+import scan from "@/assets/images/scan.png";
+
+export { camera, scan };

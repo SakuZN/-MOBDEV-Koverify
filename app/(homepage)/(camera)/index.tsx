@@ -2,27 +2,19 @@ import React from "react";
 import { useState } from "react";
 import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
 import { Button, View, Text, TouchableOpacity } from "react-native";
+import { router } from "expo-router";
 
-const Camera = () => {
+const Index = () => {
   const [facing, setFacing] = useState<CameraType>("back");
   const [permission, requestPermission] = useCameraPermissions();
 
   if (!permission) {
-    // Camera permissions are still loading.
+    // Index permissions are still loading.
     return <View />;
   }
 
   if (!permission.granted) {
-    // Camera permissions are not granted yet.
-    requestPermission();
-    return (
-      <View className="flex-1 justify-center">
-        <Text className="pb-3 text-center">
-          We need your permission to show the camera
-        </Text>
-        <Button onPress={requestPermission} title="grant permission" />
-      </View>
-    );
+    router.replace("/(homepage)/(camera)/permission");
   }
 
   function toggleCameraFacing() {
@@ -47,4 +39,4 @@ const Camera = () => {
   );
 };
 
-export default Camera;
+export default Index;

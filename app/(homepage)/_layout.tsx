@@ -89,6 +89,12 @@ export default function HomepageLayout() {
           },
         })}
       />
+      <Stack.Screen
+        name="(camera)"
+        options={({ route }) => ({
+          headerShown: false,
+        })}
+      />
     </Stack>
   );
 }

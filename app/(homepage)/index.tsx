@@ -9,7 +9,7 @@ const QuickActions: ProductType[] = [
   {
     title: "Scan Barcode",
     icon: ICONS.ScanLine,
-    type: "camera",
+    type: "(camera)",
   },
   {
     title: "View All Products",
