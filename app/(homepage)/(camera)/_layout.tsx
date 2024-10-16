@@ -13,13 +13,16 @@ const CameraLayout = () => {
       <Stack.Screen
         name={"index"}
         options={{
-          title: "Camera",
+          headerShown: true,
+          headerBackVisible: true,
+          headerTransparent: true,
+          headerTitle: "",
         }}
       />
       <Stack.Screen
         name={"permission"}
         options={{
-          title: "Index Permission",
+          headerShown: false,
         }}
       />
     </Stack>

@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
-import { Button, View, Text, TouchableOpacity } from "react-native";
+import {
+  CameraView,
+  CameraType,
+  useCameraPermissions,
+  CameraViewRef,
+} from "expo-camera";
+import { View, StyleSheet, Image, BackHandler } from "react-native";
 import { router } from "expo-router";
-
+import { scan as ScanAreaIcon } from "@/constants/Images";
+import { SafeAreaView } from "react-native-safe-area-context";
 const Index = () => {
+  const [permission] = useCameraPermissions();
   const [facing, setFacing] = useState<CameraType>("back");
-  const [permission, requestPermission] = useCameraPermissions();
 
   if (!permission) {
     // Index permissions are still loading.
+    console.log("loading");
     return <View />;
   }
 
@@ -17,26 +24,37 @@ const Index = () => {
     router.replace("/(homepage)/(camera)/permission");
   }
 
-  function toggleCameraFacing() {
-    setFacing((current) => (current === "back" ? "front" : "back"));
-  }
-
   return (
-    <View className="flex-1 justify-center">
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+      }}
+    >
+      <Image source={ScanAreaIcon} style={styles.imageScan} />
       <CameraView
-        className="flex-1"
+        style={{
+          flex: 1,
+        }}
         facing={facing}
-        barcodeScannerSettings={{
-          barcodeTypes: ["ean13"],
-        }}
-        onBarcodeScanned={(data) => {
-          // do stuff
-        }}
-      >
-        <View className="m-[100%] flex-row bg-transparent"></View>
-      </CameraView>
+        animateShutter
+      />
     </View>
   );
 };
 
 export default Index;
+const styles = StyleSheet.create({
+  imageScan: {
+    position: "absolute",
+    top: 75,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: "75%",
+    zIndex: 10,
+  },
+});

@@ -90,6 +90,29 @@ export default function HomepageLayout() {
         })}
       />
       <Stack.Screen
+        name="all-products"
+        //@ts-ignore
+        options={({ route }) => ({
+          headerTitleAlign: "center",
+          headerTitle() {
+            return (
+              <Text
+                fontFamily="SFPRO_DISPLAY"
+                fontVariant="Medium"
+                style={{
+                  fontSize: 16,
+                }}
+              >
+                {"All Products"}
+              </Text>
+            );
+          },
+          headerRight: () => {
+            return <Text className="display-text">K</Text>;
+          },
+        })}
+      />
+      <Stack.Screen
         name="(camera)"
         options={({ route }) => ({
           headerShown: false,
