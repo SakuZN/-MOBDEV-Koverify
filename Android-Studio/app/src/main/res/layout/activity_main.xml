@@ -5,6 +5,42 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/splash_gradient"
     tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/prompt"
+        android:layout_width="310dp"
+        android:layout_height="233dp"
+        android:fontFamily="@font/sfmono_bold"
+        android:gravity="center|start"
+        android:lineSpacingExtra="-3sp"
+        android:text="Welcome to Koverify"
+        android:textColor="@color/white"
+        android:textSize="40sp"
+        android:typeface="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.412"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.413" />
+
+    <Button
+        android:id="@+id/next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTintMode="src_in"
+        android:fontFamily="@font/sfmono_semibold"
+        android:onClick="nextPrompt"
+        android:text="Get Started"
+        android:textAllCaps="false"
+        android:textIsSelectable="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.769"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.698" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
