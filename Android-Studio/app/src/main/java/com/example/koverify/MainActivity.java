@@ -1,10 +1,10 @@
 package com.example.koverify;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             // add new activity here
+            Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
+            startActivity(intent);
             finish();
         }
     }
