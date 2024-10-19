@@ -51,29 +51,12 @@
                     android:layout_weight="1" />
 
                 <RelativeLayout
+                    android:id="@+id/headerScanButton"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginLeft="2dp"
+
                     android:layout_marginRight="2dp"
-
-                    android:background="@drawable/header_button_background"
-                    android:elevation="10dp">
-
-                    <ImageView
-                        android:id="@+id/imageView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8sp"
-                        android:scaleType="fitStart"
-                        app:srcCompat="@drawable/moon" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="2dp"
-
                     android:background="@drawable/header_button_background"
                     android:elevation="10dp">
 
@@ -111,6 +94,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/scanBarcodeButton"
                     android:layout_width="175dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
@@ -138,6 +122,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/viewAllProductsButton"
                     android:layout_width="175dp"
                     android:layout_height="100dp"
                     android:layout_marginRight="10dp"
@@ -191,6 +176,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/allFoodProductsButton"
                     android:layout_width="175dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
@@ -218,6 +204,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/safeFoodButton"
                     android:layout_width="175dp"
                     android:layout_height="100dp"
                     android:layout_marginRight="10dp"
@@ -253,6 +240,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/mediumRiskFoodButton"
                     android:layout_width="175dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
@@ -280,6 +268,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/highRiskFoodButton"
                     android:layout_width="175dp"
                     android:layout_height="100dp"
                     android:layout_marginRight="10dp"
@@ -333,6 +322,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/allDrugProductsButton"
                     android:layout_width="175dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
@@ -360,6 +350,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/humanDrugsButton"
                     android:layout_width="175dp"
                     android:layout_height="100dp"
                     android:layout_marginRight="10dp"
@@ -395,6 +386,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/veterinaryDrugsButton"
                     android:layout_width="175dp"
                     android:layout_height="100dp"
                     android:layout_marginRight="10dp"
