@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
-    tools:context=".Camera">
+    tools:context=".CameraActivity">
 
     <!-- Camera Preview -->
     <androidx.camera.view.PreviewView
@@ -22,14 +22,14 @@
     <!-- Scan Area Overlay -->
     <ImageView
         android:id="@+id/scanAreaIcon"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:src="@drawable/scan_overlay"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="248dp"
+        android:layout_height="259dp"
         android:layout_marginTop="50dp"
         android:layout_marginBottom="50dp"
-        android:background="@android:color/transparent" />
+        android:background="@android:color/transparent"
+        android:src="@drawable/scan_overlay"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

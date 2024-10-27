@@ -58,7 +58,7 @@ public class QrCodeViewModel {
                             if (event.getAction() == MotionEvent.ACTION_DOWN &&
                                     boundingRect.contains((int) event.getX(), (int) event.getY())) {
                                 // Handle product barcode tap (e.g., navigate to product details)
-                                Intent productDetailIntent = new Intent(v.getContext(), ProductListActivity.class);
+                                Intent productDetailIntent = new Intent(v.getContext(), DrugProductListActivity.class);
                                 productDetailIntent.putExtra("PRODUCT_CODE", qrContent);
                                 v.getContext().startActivity(productDetailIntent);
                             }

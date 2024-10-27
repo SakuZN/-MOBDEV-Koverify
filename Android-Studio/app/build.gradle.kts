@@ -49,4 +49,9 @@ dependencies {
     implementation(libs.camera.extensions)
     implementation(libs.camera.extensions)
     implementation(libs.barcode.scanning)
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    implementation(libs.room.rxjava3)
+    implementation(libs.room.rxjava2)
+    annotationProcessor(libs.room.compiler)
 }

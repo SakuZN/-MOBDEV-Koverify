@@ -2,7 +2,6 @@ package com.example.koverify;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
@@ -13,7 +12,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import android.content.pm.PackageManager;
-import android.widget.Toast;
 
 public class DashboardActivity extends AppCompatActivity {
     LinearLayout scanBarcodeButton, viewAllProductsButton, allFoodProductsButton, safeFoodButton, mediumRiskFoodButton,
@@ -47,20 +45,28 @@ public class DashboardActivity extends AppCompatActivity {
         setButtonClickListener(safeFoodButton);
         setButtonClickListener(mediumRiskFoodButton);
         setButtonClickListener(highRiskFoodButton);
-        setButtonClickListener(allDrugProductsButton);
-        setButtonClickListener(humanDrugsButton);
-        setButtonClickListener(veterinaryDrugsButton);
 
         // Set OnClickListener specifically for scanBarcodeButton
         scanBarcodeButton.setOnClickListener(view -> handleScanBarcode());
+
+        // Set OnClickListener for drug-related buttons
+        allDrugProductsButton.setOnClickListener(view -> openDrugProductListActivity("all"));
+        humanDrugsButton.setOnClickListener(view -> openDrugProductListActivity("human"));
+        veterinaryDrugsButton.setOnClickListener(view -> openDrugProductListActivity("vet"));
     }
 
     // Method to handle the click and start the ProductListActivity
     private void setButtonClickListener(LinearLayout button) {
         button.setOnClickListener(view -> {
-            Intent intent = new Intent(DashboardActivity.this, ProductListActivity.class);
+            Intent intent = new Intent(DashboardActivity.this, DrugProductListActivity.class);
             startActivity(intent);
         });
+    }
+
+    private void openDrugProductListActivity(String drugType) {
+        Intent intent = new Intent(DashboardActivity.this, DrugProductListActivity.class);
+        intent.putExtra("drug_type", drugType);
+        startActivity(intent);
     }
 
     // Method to handle Scan Barcode button click
@@ -75,13 +81,13 @@ public class DashboardActivity extends AppCompatActivity {
 
     // Navigate to PermissionsActivity
     private void navigateToPermissions() {
-        Intent intent = new Intent(DashboardActivity.this, Permissions.class);
+        Intent intent = new Intent(DashboardActivity.this, PermissionsActivity.class);
         startActivity(intent);
     }
 
     // Navigate to CameraActivity
     private void navigateToCamera() {
-        Intent intent = new Intent(DashboardActivity.this, Camera.class);
+        Intent intent = new Intent(DashboardActivity.this, CameraActivity.class);
         startActivity(intent);
     }
 }
