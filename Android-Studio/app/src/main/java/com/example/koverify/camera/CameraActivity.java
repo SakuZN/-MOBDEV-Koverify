@@ -1,4 +1,4 @@
-package com.example.koverify;
+package com.example.koverify.camera;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +22,8 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 
+import com.example.koverify.DashboardActivity;
+import com.example.koverify.R;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions;

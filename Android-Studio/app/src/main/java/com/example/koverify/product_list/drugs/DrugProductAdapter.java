@@ -1,4 +1,4 @@
-package com.example.koverify.database.drugs;
+package com.example.koverify.product_list.drugs;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,22 +9,32 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.koverify.R;
+import com.example.koverify.database.drugs.DrugListItem;
 
 import java.util.List;
 
 public class DrugProductAdapter extends RecyclerView.Adapter<DrugProductAdapter.DrugProductViewHolder> {
-    private List<DrugListItem> drugProducts;
+    private static List<DrugListItem> drugProducts;
+    private OnItemClickListener onItemClickListener;
 
     public void submitList(List<DrugListItem> drugProducts) {
         this.drugProducts = drugProducts;
         notifyDataSetChanged();
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(DrugListItem drugItem);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
+
     @NonNull
     @Override
     public DrugProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_drug_product, parent, false);
-        return new DrugProductViewHolder(v);
+        return new DrugProductViewHolder(v, onItemClickListener);
     }
 
     @Override
@@ -44,12 +54,20 @@ public class DrugProductAdapter extends RecyclerView.Adapter<DrugProductAdapter.
         TextView manufacturerTextView;
         TextView classificationTextView;
 
-        public DrugProductViewHolder(@NonNull View itemView) {
+        public DrugProductViewHolder(@NonNull View itemView,final OnItemClickListener listener) {
             super(itemView);
             brandNameTextView = itemView.findViewById(R.id.textView3); // Brand Name
             genericNameTextView = itemView.findViewById(R.id.textView); // Generic Name
             manufacturerTextView = itemView.findViewById(R.id.textView6); // Manufacturer
             classificationTextView = itemView.findViewById(R.id.textView8); // Classification
+
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (listener != null && position != RecyclerView.NO_POSITION) {
+                    DrugListItem clickedItem = drugProducts.get(position);
+                    listener.onItemClick(clickedItem);
+                }
+            });
         }
 
         public void bind(DrugListItem drugItem) {

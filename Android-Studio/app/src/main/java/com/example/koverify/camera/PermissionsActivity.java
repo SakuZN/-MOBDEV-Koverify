@@ -1,4 +1,4 @@
-package com.example.koverify;
+package com.example.koverify.camera;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -19,6 +19,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.ContextCompat;
+
+import com.example.koverify.R;
 
 public class PermissionsActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.example.koverify;
+package com.example.koverify.product_list.drugs;
 
 import android.app.Application;
 

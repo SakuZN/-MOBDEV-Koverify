@@ -13,13 +13,13 @@
         android:theme="@style/Theme.Koverify"
         tools:targetApi="31">
         <activity
-            android:name=".CameraActivity"
+            android:name=".camera.CameraActivity"
             android:exported="false" />
         <activity
-            android:name=".PermissionsActivity"
+            android:name=".camera.PermissionsActivity"
             android:exported="false" />
         <activity
-            android:name=".DrugProductListActivity"
+            android:name=".product_list.drugs.DrugProductListActivity"
             android:exported="false" />
         <activity
             android:name=".DashboardActivity"

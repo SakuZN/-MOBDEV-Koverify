@@ -13,6 +13,10 @@ import androidx.core.view.WindowInsetsCompat;
 
 import android.content.pm.PackageManager;
 
+import com.example.koverify.camera.CameraActivity;
+import com.example.koverify.camera.PermissionsActivity;
+import com.example.koverify.product_list.drugs.DrugProductListActivity;
+
 public class DashboardActivity extends AppCompatActivity {
     LinearLayout scanBarcodeButton, viewAllProductsButton, allFoodProductsButton, safeFoodButton, mediumRiskFoodButton,
             highRiskFoodButton, allDrugProductsButton, humanDrugsButton, veterinaryDrugsButton;

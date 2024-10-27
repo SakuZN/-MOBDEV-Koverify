@@ -1,12 +1,10 @@
-package com.example.koverify;
+package com.example.koverify.camera;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.view.MotionEvent;
-import android.view.View;
 
 /**
  * A Drawable that handles displaying a Barcode's data and a bounding box around the Barcode.

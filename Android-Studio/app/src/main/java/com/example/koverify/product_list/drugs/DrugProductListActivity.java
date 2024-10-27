@@ -1,4 +1,4 @@
-package com.example.koverify;
+package com.example.koverify.product_list.drugs;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,12 +10,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.koverify.database.drugs.DrugProductAdapter;
+import com.example.koverify.DashboardActivity;
+import com.example.koverify.R;
 
 public class DrugProductListActivity extends AppCompatActivity {
 
@@ -24,6 +26,7 @@ public class DrugProductListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private DrugProductAdapter adapter;
     private DrugProductListViewModel viewModel;
+    private ImageView backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class DrugProductListActivity extends AppCompatActivity {
 
         topbarHeader = findViewById(R.id.topbarHeader);
         recyclerView = findViewById(R.id.recyclerView);
+        backButton = findViewById(R.id.prodBackButton);
 
         // Update header text based on drug type
         switch (drugType) {
@@ -71,6 +75,15 @@ public class DrugProductListActivity extends AppCompatActivity {
             adapter.submitList(drugProducts);
         });
 
+        adapter.setOnItemClickListener(drugItem -> {
+            String regNum = drugItem.getReg_num();
+            String drugType = drugItem.getDrug_type(); // "Human", "Vet", or "Unknown"
+
+            // Create and show the modal dialog
+            showProductDetailsDialog(regNum, drugType);
+        });
+
+
         // Implement pagination
         implementPagination();
 
@@ -80,6 +93,8 @@ public class DrugProductListActivity extends AppCompatActivity {
                 navigateToDashboard();
             }
         });
+
+        backButton.setOnClickListener(v -> navigateToDashboard());
 
     }
 
@@ -111,4 +126,10 @@ public class DrugProductListActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    private void showProductDetailsDialog(String regNum, String drugType) {
+        DrugProductDetailsDialog dialog = DrugProductDetailsDialog.newInstance(regNum, drugType);
+        dialog.show(getSupportFragmentManager(), "DrugProductDetailsDialog");
+    }
+
 }

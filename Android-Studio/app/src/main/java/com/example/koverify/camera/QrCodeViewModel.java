@@ -1,4 +1,4 @@
-package com.example.koverify;
+package com.example.koverify.camera;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.example.koverify.product_list.drugs.DrugProductListActivity;
 import com.google.mlkit.vision.barcode.common.Barcode;
 
 /**
