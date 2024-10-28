@@ -1,5 +1,4 @@
 package com.example.koverify.product_list.drugs;
-
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -10,14 +9,26 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.koverify.DashboardActivity;
 import com.example.koverify.R;
+import com.example.koverify.database.drugs.DrugFilterType;
+import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class DrugProductListActivity extends AppCompatActivity {
 
@@ -27,6 +38,13 @@ public class DrugProductListActivity extends AppCompatActivity {
     private DrugProductAdapter adapter;
     private DrugProductListViewModel viewModel;
     private ImageView backButton;
+
+    private TextInputEditText searchEditText;
+    private RelativeLayout headerFilterButton;
+    private ProgressBar progressBar;
+    private TextView emptyView;
+    private DrugFilterType filterParam = new DrugFilterType();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +65,11 @@ public class DrugProductListActivity extends AppCompatActivity {
         topbarHeader = findViewById(R.id.topbarHeader);
         recyclerView = findViewById(R.id.recyclerView);
         backButton = findViewById(R.id.prodBackButton);
+        searchEditText = findViewById(R.id.searchDrugBar);
+        headerFilterButton = findViewById(R.id.headerFilterButton);
+        progressBar = findViewById(R.id.progressBar);
+        emptyView = findViewById(R.id.emptyView);
+
 
         // Update header text based on drug type
         switch (drugType) {
@@ -69,19 +92,72 @@ public class DrugProductListActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(DrugProductListViewModel.class);
         viewModel.init(drugType);
 
-        // Observe LiveData
         viewModel.getDrugProductsLiveData().observe(this, drugProducts -> {
-            System.out.println("LiveData updated: " + drugProducts);
             adapter.submitList(drugProducts);
+            if (drugProducts == null || drugProducts.isEmpty()) {
+                emptyView.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+            } else {
+                emptyView.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+        });
+        viewModel.getIsLoadingLiveData().observe(this, isLoading -> {
+            if (isLoading != null) {
+                progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+            }
         });
 
         adapter.setOnItemClickListener(drugItem -> {
             String regNum = drugItem.getReg_num();
-            String drugType = drugItem.getDrug_type(); // "Human", "Vet", or "Unknown"
+            String drugType = drugItem.getDrug_type();
+            String name = drugItem.getBrand_name();
+            System.out.println("Clicked: " + regNum + " - " + name);
 
             // Create and show the modal dialog
             showProductDetailsDialog(regNum, drugType);
         });
+
+        // Debounce the search input
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            private Timer timer = new Timer();
+            private final long DELAY = 300; // milliseconds
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(final CharSequence s, int start, int before, int count) {
+                timer.cancel();
+                timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        // Run on UI thread
+                        runOnUiThread(() -> {
+                            viewModel.setSearchQuery(s.toString());
+                            recyclerView.scrollToPosition(0);
+                        });
+                    }
+                }, DELAY);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+
+        headerFilterButton.setOnClickListener(v -> {
+            DrugFilterDialog dialog = DrugFilterDialog.newInstance(drugType, filterParam);
+            dialog.setFilterDialogListener(filter -> {
+                System.out.println("Filter: " + filter);
+                viewModel.setFilterParam(filter);
+                filterParam.setFilters(filter.getFilters());
+                recyclerView.scrollToPosition(0);
+            });
+            dialog.show(getSupportFragmentManager(), "DrugFilterDialog");
+        });
+
+
 
 
         // Implement pagination

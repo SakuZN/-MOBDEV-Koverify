@@ -19,6 +19,7 @@ import java.util.concurrent.Executors;
 
 public class DrugProductListViewModel extends AndroidViewModel {
     private MutableLiveData<List<DrugListItem>> drugProductsLiveData;
+    private MutableLiveData<Boolean> isLoadingLiveData;
     private List<DrugListItem> drugProductsList;
     private DrugRepository drugRepository;
     private String drugType;
@@ -27,9 +28,13 @@ public class DrugProductListViewModel extends AndroidViewModel {
     private int offset = 0;
     private boolean isLastPage = false;
 
+    private String searchQuery = "";
+    private DrugFilterType filterParam = new DrugFilterType();
+
     public DrugProductListViewModel(@NonNull Application application) {
         super(application);
         drugProductsLiveData = new MutableLiveData<>();
+        isLoadingLiveData = new MutableLiveData<>(false);
         drugProductsList = new ArrayList<>();
         drugRepository = new DrugRepository(application.getApplicationContext());
     }
@@ -42,26 +47,55 @@ public class DrugProductListViewModel extends AndroidViewModel {
     public LiveData<List<DrugListItem>> getDrugProductsLiveData() {
         return drugProductsLiveData;
     }
+    public LiveData<Boolean> getIsLoadingLiveData() {
+        return isLoadingLiveData;
+    }
+
+    public void setSearchQuery(String searchQuery) {
+        this.searchQuery = searchQuery;
+        resetData();
+    }
+
+    public void setFilterParam(DrugFilterType filterParam) {
+        this.filterParam = filterParam;
+        resetData();
+    }
+
+    private void resetData() {
+        offset = 0;
+        isLastPage = false;
+        drugProductsList.clear();
+        drugProductsLiveData.postValue(drugProductsList);
+        loadDrugProducts();
+    }
 
     public void loadDrugProducts() {
         if (isLastPage) return;
 
         ScreenParam screenParam = new ScreenParam(limit, offset);
-        SearchParam searchParam = null;
-        DrugFilterType filterParam = new DrugFilterType();
+        SearchParam searchParam = new SearchParam();
+        searchParam.setSearch(searchQuery);
+        DrugFilterType filterParam = new DrugFilterType(this.filterParam.getFilters());
         if (!"all".equals(drugType)) {
             filterParam.setFilter("drug_type", drugType);
         }
 
+        isLoadingLiveData.postValue(true);
+
         Executors.newSingleThreadExecutor().execute(() -> {
             List<DrugListItem> newProducts = drugRepository.getDrugsList(screenParam, searchParam, filterParam);
+            System.out.println("newProducts: " + newProducts);
             if (newProducts == null || newProducts.isEmpty()) {
                 isLastPage = true;
+                if (offset == 0) {
+                    drugProductsLiveData.postValue(new ArrayList<>());
+                }
             } else {
                 offset += limit;
                 drugProductsList.addAll(newProducts);
-                drugProductsLiveData.postValue(drugProductsList);
+                drugProductsLiveData.postValue(new ArrayList<>(drugProductsList));
             }
+            isLoadingLiveData.postValue(false);
         });
     }
 
@@ -72,11 +106,13 @@ public class DrugProductListViewModel extends AndroidViewModel {
         }
 
         ScreenParam screenParam = new ScreenParam(limit, offset);
-        SearchParam searchParam = null;
-        DrugFilterType filterParam = new DrugFilterType();
+        SearchParam searchParam = new SearchParam();
+        searchParam.setSearch(searchQuery);
+        DrugFilterType filterParam = new DrugFilterType(this.filterParam.getFilters());
         if (!"all".equals(drugType)) {
             filterParam.setFilter("drug_type", drugType);
         }
+        isLoadingLiveData.postValue(true);
 
         Executors.newSingleThreadExecutor().execute(() -> {
             List<DrugListItem> newProducts = drugRepository.getDrugsList(screenParam, searchParam, filterParam);
@@ -88,6 +124,7 @@ public class DrugProductListViewModel extends AndroidViewModel {
                 drugProductsList.addAll(newProducts);
                 drugProductsLiveData.postValue(drugProductsList);
             }
+            isLoadingLiveData.postValue(false);
             if (onComplete != null) onComplete.run();
         });
     }

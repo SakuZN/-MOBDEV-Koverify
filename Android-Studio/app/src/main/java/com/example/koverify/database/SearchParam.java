@@ -11,6 +11,11 @@ public class SearchParam {
         this.searchType = searchType;
     }
 
+    public SearchParam() {
+        this.search = "";
+        this.searchType = "";
+    }
+
     // Getters
     public String getSearch() {
         return search;
@@ -18,5 +23,14 @@ public class SearchParam {
 
     public String getSearchType() {
         return searchType;
+    }
+
+    // Setters
+    public void setSearch(String search) {
+        this.search = search;
+    }
+
+    public void setSearchType(String searchType) {
+        this.searchType = searchType;
     }
 }

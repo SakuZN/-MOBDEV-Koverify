@@ -33,7 +33,6 @@ public class DrugProductDetailsDialog extends DialogFragment {
     }
 
     public DrugProductDetailsDialog() {
-        // Required empty public constructor
     }
 
     @Override

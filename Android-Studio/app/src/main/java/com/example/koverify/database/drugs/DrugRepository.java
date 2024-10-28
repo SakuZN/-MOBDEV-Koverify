@@ -29,27 +29,43 @@ public class DrugRepository {
 
         StringBuilder baseQuery = new StringBuilder("SELECT * FROM DrugListView");
         List<Object> queryParams = new ArrayList<>();
-        String searchQuery = " LIKE '%' || ? || '%'";
-
-        // Push search params into query
         boolean hasWhereClause = false;
 
+        // Build the WHERE clause for search across multiple columns
         if (searchParam != null && searchParam.getSearch() != null && !searchParam.getSearch().isEmpty()) {
             baseQuery.append(" WHERE");
             hasWhereClause = true;
+            baseQuery.append(" (");
 
-            String searchType = searchParam.getSearchType();
-            String searchValue = searchParam.getSearch();
+            String searchValue = "%" + searchParam.getSearch() + "%";
+            String orQuery = "";
 
-            if (searchType.equals("trader") || searchType.equals("importer") || searchType.equals("distributor")) {
-                baseQuery.append(" hdi_").append(searchType).append(searchQuery);
-                baseQuery.append(" OR vdi_").append(searchType).append(searchQuery);
+            // Columns to search in
+            String[] searchColumns = new String[]{
+                    "reg_num",
+                    "generic_name",
+                    "brand_name",
+                    "dosage_strength",
+                    "dosage_form",
+                    "manufacturer",
+                    "hdi_trader",
+                    "vdi_trader",
+                    "hdi_importer",
+                    "vdi_importer",
+                    "hdi_distributor",
+                    "vdi_distributor",
+                    "hdi_pharmacologic_category",
+                    "vdi_application_type",
+                    "sku"
+            };
+
+            for (String column : searchColumns) {
+                baseQuery.append(orQuery).append(" ").append(column).append(" LIKE ?");
                 queryParams.add(searchValue);
-                queryParams.add(searchValue);
-            } else {
-                baseQuery.append(" ").append(searchType).append(searchQuery);
-                queryParams.add(searchValue);
+                orQuery = " OR";
             }
+
+            baseQuery.append(" )");
         }
 
         // Push filter params into query
@@ -82,20 +98,19 @@ public class DrugRepository {
                         case "drug_type":
                             if (!value.equals("all")) {
                                 baseQuery.append(filterQuery).append(" drug_type = ?");
-                                queryParams.add(value.equals("human") ? "Human" : "Vet");
+                                queryParams.add(value.equalsIgnoreCase("human") ? "Human" : "Vet");
                                 filterQuery = " AND";
                             }
                             break;
                         case "classification":
-                            baseQuery.append(filterQuery).append(" hdi_").append(key).append(searchQuery);
-                            baseQuery.append(" OR vdi_").append(key).append(searchQuery);
-                            queryParams.add(value);
-                            queryParams.add(value);
+                            baseQuery.append(filterQuery).append(" (hdi_classification LIKE ? OR vdi_classification LIKE ?)");
+                            queryParams.add("%" + value + "%");
+                            queryParams.add("%" + value + "%");
                             filterQuery = " AND";
                             break;
                         default:
-                            baseQuery.append(filterQuery).append(" ").append(key).append(searchQuery);
-                            queryParams.add(value);
+                            baseQuery.append(filterQuery).append(" ").append(key).append(" LIKE ?");
+                            queryParams.add("%" + value + "%");
                             filterQuery = " AND";
                             break;
                     }
@@ -113,9 +128,9 @@ public class DrugRepository {
 
         SupportSQLiteQuery query = new SimpleSQLiteQuery(baseQuery.toString(), queryParams.toArray());
 
-
         return drugProductDao.getDrugsList(query);
     }
+
 
     public HumanDrug getHumanDrugInfo(String regNum) {
         return drugProductDao.getHumanDrugInfo(regNum);
