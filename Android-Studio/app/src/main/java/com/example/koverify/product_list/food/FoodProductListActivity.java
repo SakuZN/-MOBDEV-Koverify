@@ -1,4 +1,4 @@
-package com.example.koverify.product_list.drugs;
+package com.example.koverify.product_list.food;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -29,13 +29,12 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class DrugProductListActivity extends AppCompatActivity {
-
-    private String drugType;
+public class FoodProductListActivity extends AppCompatActivity {
+    private String foodType;
     private TextView topbarHeader;
     private RecyclerView recyclerView;
-    private DrugProductAdapter adapter;
-    private DrugProductListViewModel viewModel;
+    private FoodProductAdapter adapter;
+    private FoodProductListViewModel viewModel;
     private ImageView backButton;
 
     private TextInputEditText searchEditText;
@@ -49,51 +48,57 @@ public class DrugProductListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_drug_product_list);
+        setContentView(R.layout.activity_food_product_list);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        drugType = getIntent().getStringExtra("drug_type");
-        if (drugType == null) {
-            drugType = "all";
+        foodType = getIntent().getStringExtra("food_type");
+        if (foodType == null) {
+            foodType = "all";
         }
 
         topbarHeader = findViewById(R.id.topbarHeader);
         recyclerView = findViewById(R.id.recyclerView);
         backButton = findViewById(R.id.prodBackButton);
-        searchEditText = findViewById(R.id.searchDrugBar);
+        searchEditText = findViewById(R.id.searchFoodBar);
         headerFilterButton = findViewById(R.id.headerFilterButton);
         progressBar = findViewById(R.id.progressBar);
         emptyView = findViewById(R.id.emptyView);
 
 
         // Update header text based on drug type
-        switch (drugType) {
-            case "human":
-                topbarHeader.setText("Human Drugs");
+        switch (foodType) {
+            case "h_risk":
+                topbarHeader.setText("High Risk Food Products");
                 break;
-            case "vet":
-                topbarHeader.setText("Veterinary Drugs");
+            case "m_risk":
+                topbarHeader.setText("Medium Risk Food Products");
+                break;
+            case "l_risk":
+                topbarHeader.setText("Low Risk Food Products");
+                break;
+            case "raw":
+                topbarHeader.setText("Raw Food Products");
                 break;
             default:
-                topbarHeader.setText("All Drug Products");
+                topbarHeader.setText("All Food Products");
                 break;
         }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new DrugProductAdapter();
+        adapter = new FoodProductAdapter();
         recyclerView.setAdapter(adapter);
 
         // Initialize ViewModel
-        viewModel = new ViewModelProvider(this).get(DrugProductListViewModel.class);
-        viewModel.init(drugType);
+        viewModel = new ViewModelProvider(this).get(FoodProductListViewModel.class);
+        viewModel.init(foodType);
 
-        viewModel.getDrugProductsLiveData().observe(this, drugProducts -> {
-            adapter.submitList(drugProducts);
-            if (drugProducts == null || drugProducts.isEmpty()) {
+        viewModel.getFoodProductsLiveData().observe(this, foodProducts -> {
+            adapter.submitList(foodProducts);
+            if (foodProducts == null || foodProducts.isEmpty()) {
                 emptyView.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.GONE);
             } else {
@@ -107,14 +112,13 @@ public class DrugProductListActivity extends AppCompatActivity {
             }
         });
 
-        adapter.setOnItemClickListener(drugItem -> {
-            String regNum = drugItem.getReg_num();
-            String drugType = drugItem.getDrug_type();
-            String name = drugItem.getBrand_name();
+        adapter.setOnItemClickListener(foodProduct -> {
+            String regNum = foodProduct.getReg_num();
+            String name = foodProduct.getBrand_name();
             System.out.println("Clicked: " + regNum + " - " + name);
 
             // Create and show the modal dialog
-            showProductDetailsDialog(regNum, drugType);
+            showProductDetailsDialog(regNum);
         });
 
         // Debounce the search input
@@ -146,14 +150,14 @@ public class DrugProductListActivity extends AppCompatActivity {
         });
 
         headerFilterButton.setOnClickListener(v -> {
-            DrugFilterDialog dialog = DrugFilterDialog.newInstance(drugType, filterParam);
+            FoodFilterDialog dialog = FoodFilterDialog.newInstance(foodType, filterParam);
             dialog.setFilterDialogListener(filter -> {
                 System.out.println("Filter: " + filter);
                 viewModel.setFilterParam(filter);
                 filterParam.setFilters(filter.getFilters());
                 recyclerView.scrollToPosition(0);
             });
-            dialog.show(getSupportFragmentManager(), "DrugFilterDialog");
+            dialog.show(getSupportFragmentManager(), "FoodFilterDialog");
         });
 
 
@@ -190,21 +194,21 @@ public class DrugProductListActivity extends AppCompatActivity {
 
                 if (!isLoading && totalItemCount <= (lastVisibleItemPosition + visibleThreshold)) {
                     isLoading = true;
-                    viewModel.loadMoreDrugProducts(() -> isLoading = false);
+                    viewModel.loadMoreFoodProducts(() -> isLoading = false);
                 }
             }
         });
     }
 
     private void navigateToDashboard() {
-        Intent intent = new Intent(DrugProductListActivity.this, DashboardActivity.class);
+        Intent intent = new Intent(FoodProductListActivity.this, DashboardActivity.class);
         startActivity(intent);
         finish();
     }
 
-    private void showProductDetailsDialog(String regNum, String drugType) {
-        DrugProductDetailsDialog dialog = DrugProductDetailsDialog.newInstance(regNum, drugType);
-        dialog.show(getSupportFragmentManager(), "DrugProductDetailsDialog");
+    private void showProductDetailsDialog(String regNum) {
+        FoodProductDetailsDialog dialog = FoodProductDetailsDialog.newInstance(regNum);
+        dialog.show(getSupportFragmentManager(), "FoodProductDetailsDialog");
     }
 
 }

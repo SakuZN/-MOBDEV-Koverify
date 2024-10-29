@@ -22,6 +22,9 @@
             android:name=".product_list.drugs.DrugProductListActivity"
             android:exported="false" />
         <activity
+            android:name=".product_list.food.FoodProductListActivity"
+            android:exported="false" />
+        <activity
             android:name=".DashboardActivity"
             android:exported="false" />
         <activity

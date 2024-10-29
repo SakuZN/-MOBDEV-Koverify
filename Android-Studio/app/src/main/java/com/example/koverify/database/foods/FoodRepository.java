@@ -6,6 +6,7 @@ import android.content.Context;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 import androidx.sqlite.db.SupportSQLiteQuery;
 
+import com.example.koverify.database.FilterParam;
 import com.example.koverify.database.MyDatabase;
 import com.example.koverify.database.ScreenParam;
 import com.example.koverify.database.SearchParam;
@@ -23,7 +24,7 @@ public class FoodRepository {
         foodProductDao = db.foodProductDao();
     }
 
-    public List<FoodProduct> getFoodsList(ScreenParam param, SearchParam searchParam, FoodFilterType filterParam) {
+    public List<FoodProduct> getFoodsList(ScreenParam param, SearchParam searchParam, FilterParam filterParam) {
         int limit = param.getLimit();
         int offset = param.getOffset();
 
@@ -34,15 +35,31 @@ public class FoodRepository {
         // Push search params into query
         boolean hasWhereClause = false;
 
+        // Build the WHERE clause for search across multiple columns
         if (searchParam != null && searchParam.getSearch() != null && !searchParam.getSearch().isEmpty()) {
             baseQuery.append(" WHERE");
             hasWhereClause = true;
+            baseQuery.append(" (");
 
-            String searchType = searchParam.getSearchType();
-            String searchValue = searchParam.getSearch();
+            String searchValue = "%" + searchParam.getSearch() + "%";
+            String orQuery = "";
 
-            baseQuery.append(" ").append(searchType).append(searchQuery);
-            queryParams.add(searchValue);
+            // Columns to search in
+            String[] searchColumns = new String[]{
+                    "reg_num",
+                    "company_name",
+                    "product_name",
+                    "brand_name",
+                    "sku"
+            };
+
+            for (String column : searchColumns) {
+                baseQuery.append(orQuery).append(" ").append(column).append(" LIKE ?");
+                queryParams.add(searchValue);
+                orQuery = " OR";
+            }
+
+            baseQuery.append(" )");
         }
 
         // Push filter params into query
@@ -73,9 +90,9 @@ public class FoodRepository {
                             filterQuery = " AND";
                             break;
                         case "food_type":
-                            if (!value.equals("all")) {
-                                baseQuery.append(filterQuery).append(" product_type = ?");
-                                queryParams.add(getFoodType(value));
+                            if (!value.equalsIgnoreCase("all")) {
+                                baseQuery.append(filterQuery).append(" product_type LIKE ?");
+                                queryParams.add("%" + getFoodType(value) + "%");
                                 filterQuery = " AND";
                             }
                             break;
@@ -118,7 +135,6 @@ public class FoodRepository {
         }
     }
 
-    // Implement getFoodInfo method
     public FoodProduct getFoodInfo(String regNum) {
         return foodProductDao.getFoodInfo(regNum);
     }

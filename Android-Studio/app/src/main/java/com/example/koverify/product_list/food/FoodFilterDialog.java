@@ -1,11 +1,9 @@
-package com.example.koverify.product_list.drugs;
-
+package com.example.koverify.product_list.food;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,50 +12,45 @@ import android.widget.*;
 
 import com.example.koverify.R;
 import com.example.koverify.database.FilterParam;
-
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class DrugFilterDialog extends DialogFragment {
+public class FoodFilterDialog extends DialogFragment {
 
     public interface FilterDialogListener {
         void onFilterApplied(FilterParam filter);
     }
 
-    private FilterDialogListener listener;
+    private FoodFilterDialog.FilterDialogListener listener;
 
-    private Spinner countrySpinner;
-    private Spinner classificationSpinner;
+
     private EditText issuanceDateEditText;
     private EditText expiryDateEditText;
-    private Spinner drugTypeSpinner;
+    private Spinner foodTypeSpinner;
     private Button resetButton;
     private Button applyButton;
 
-    private String drugType; // Passed from the activity
+    private String foodType; // Passed from the activity
     private String existingType;
     private FilterParam defaultFilter;
 
-    public static DrugFilterDialog newInstance(String drugType, FilterParam filter) {
-        DrugFilterDialog fragment = new DrugFilterDialog();
+    public static FoodFilterDialog newInstance(String foodType, FilterParam filter) {
+        FoodFilterDialog fragment = new FoodFilterDialog();
         Bundle args = new Bundle();
-        String existingType = filter.getFilter("drug_type");
-        args.putString("drug_type", drugType);
+        String existingType = filter.getFilter("food_type");
+        args.putString("food_type", foodType);
         args.putString("existingType", (existingType != null && !existingType.isEmpty()) ? existingType : "all");
-        args.putString("country_of_origin", filter.getFilter("country_of_origin"));
-        args.putString("classification", filter.getFilter("classification"));
         args.putString("issuance_date", filter.getFilter("issuance_date"));
         args.putString("expiry_date", filter.getFilter("expiry_date"));
         fragment.setArguments(args);
         return fragment;
     }
 
-    public void setFilterDialogListener(FilterDialogListener listener) {
+    public void setFilterDialogListener(FoodFilterDialog.FilterDialogListener listener) {
         this.listener = listener;
     }
 
-    public DrugFilterDialog() {
+    public FoodFilterDialog() {
     }
     @Override
     public void onStart() {
@@ -71,29 +64,26 @@ public class DrugFilterDialog extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dialog_filter_drugs, container, false);
+        View view = inflater.inflate(R.layout.dialog_filter_food, container, false);
 
         defaultFilter = new FilterParam();
         if (getArguments() != null) {
-            drugType = getArguments().getString("drug_type");
+            foodType = getArguments().getString("food_type");
             existingType = getArguments().getString("existingType");
-            defaultFilter.setFilter("country_of_origin", getArguments().getString("country_of_origin"));
-            defaultFilter.setFilter("classification", getArguments().getString("classification"));
             defaultFilter.setFilter("issuance_date", getArguments().getString("issuance_date"));
             defaultFilter.setFilter("expiry_date", getArguments().getString("expiry_date"));
         }
 
         // Initialize views
-        countrySpinner = view.findViewById(R.id.countrySpinner);
-        classificationSpinner = view.findViewById(R.id.classificationSpinner);
         issuanceDateEditText = view.findViewById(R.id.issuanceDateEditText);
         expiryDateEditText = view.findViewById(R.id.expiryDateEditText);
-        drugTypeSpinner = view.findViewById(R.id.drugTypeSpinner);
+        foodTypeSpinner = view.findViewById(R.id.foodTypeSpinner);
         resetButton = view.findViewById(R.id.resetButton);
         applyButton = view.findViewById(R.id.applyButton);
 
-        if ("all".equalsIgnoreCase(drugType)) {
-            drugTypeSpinner.setVisibility(View.VISIBLE);
+        // Hide foodTypeSpinner if foodType is not "all"
+        if ("all".equalsIgnoreCase(foodType)) {
+            foodTypeSpinner.setVisibility(View.VISIBLE);
             view.findViewById(R.id.drugTypeLabel).setVisibility(View.VISIBLE);
         }
 
@@ -111,48 +101,15 @@ public class DrugFilterDialog extends DialogFragment {
     }
 
     private void loadFilterOptions() {
-        // ViewModel to fetch options
-        DrugFilterViewModel viewModel = new ViewModelProvider(this).get(DrugFilterViewModel.class);
-
-        // Load countries
-        viewModel.getCountries().observe(getViewLifecycleOwner(), countries -> {
-            List<String> countryList = new ArrayList<>();
-            countryList.add("Select Country"); // Add placeholder
-            countryList.addAll(countries);
-            //find index of default filter countrt origin string
-            int countryIndex = countryList.indexOf(defaultFilter.getFilter("country_of_origin"));
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, countryList);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            countrySpinner.setAdapter(adapter);
-            if (countryIndex != -1) {
-                countrySpinner.setSelection(countryIndex);
-            }
-        });
-
-        // Load classifications
-        viewModel.getClassifications().observe(getViewLifecycleOwner(), classifications -> {
-            List<String> classificationList = new ArrayList<>();
-            classificationList.add("Select Classification"); // Add placeholder
-            classificationList.addAll(classifications);
-            //find index of default filter classification string
-            int classificationIndex = classificationList.indexOf(defaultFilter.getFilter("classification"));
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, classificationList);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            classificationSpinner.setAdapter(adapter);
-            if (classificationIndex != -1) {
-                classificationSpinner.setSelection(classificationIndex);
-            }
-        });
-
         // Load drug types if applicable
-        if ("all".equalsIgnoreCase(drugType)) {
-            List<String> options = List.of("All", "Human", "Vet");
+        if ("all".equalsIgnoreCase(foodType)) {
+            List<String> options = List.of("All", "High Risk", "Medium Risk", "Low Risk", "Raw");
             int typeIndex = options.indexOf(existingType);
             ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, options);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            drugTypeSpinner.setAdapter(adapter);
+            foodTypeSpinner.setAdapter(adapter);
             if (typeIndex != -1) {
-                drugTypeSpinner.setSelection(typeIndex);
+                foodTypeSpinner.setSelection(typeIndex);
             }
         }
     }
@@ -182,34 +139,27 @@ public class DrugFilterDialog extends DialogFragment {
     }
 
     private void resetFilters() {
-        countrySpinner.setSelection(0);
-        classificationSpinner.setSelection(0);
         issuanceDateEditText.setText("");
         expiryDateEditText.setText("");
-        if ("all".equalsIgnoreCase(drugType)) {
-            drugTypeSpinner.setSelection(0);
+        if ("all".equalsIgnoreCase(foodType)) {
+            foodTypeSpinner.setSelection(0);
         }
     }
 
     private void applyFilters() {
         FilterParam filter = new FilterParam();
 
-        String country = countrySpinner.getSelectedItem() != null && !countrySpinner.getSelectedItem().toString().equalsIgnoreCase(countrySpinner.getItemAtPosition(0).toString()) ? countrySpinner.getSelectedItem().toString() : "";
-        String classification = classificationSpinner.getSelectedItem() != null && !classificationSpinner.getSelectedItem().toString().equalsIgnoreCase(classificationSpinner.getItemAtPosition(0).toString()) ? classificationSpinner.getSelectedItem().toString() : "";
         String issuanceDate = issuanceDateEditText.getText().toString();
         String expiryDate = expiryDateEditText.getText().toString();
-
-        if (!country.isEmpty()) filter.setFilter("country_of_origin", country);
-        if (!classification.isEmpty()) filter.setFilter("classification", classification);
         if (!issuanceDate.isEmpty()) filter.setFilter("issuance_date", issuanceDate);
         if (!expiryDate.isEmpty()) filter.setFilter("expiry_date", expiryDate);
-        if ("all".equalsIgnoreCase(drugType)) {
-            String selectedDrugType = drugTypeSpinner.getSelectedItem().toString();
-            if (!"All".equalsIgnoreCase(selectedDrugType)) {
-                filter.setFilter("drug_type", selectedDrugType);
+        if ("all".equalsIgnoreCase(foodType)) {
+            String selectedFoodType = foodTypeSpinner.getSelectedItem().toString();
+            if (!"All".equalsIgnoreCase(selectedFoodType)) {
+                filter.setFilter("food_type", selectedFoodType);
             }
         } else {
-            filter.setFilter("drug_type", drugType);
+            filter.setFilter("food_type", foodType);
         }
 
         // Pass the filter back to the activity

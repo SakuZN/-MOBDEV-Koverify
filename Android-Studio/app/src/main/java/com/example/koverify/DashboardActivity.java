@@ -12,14 +12,17 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import android.content.pm.PackageManager;
+import android.widget.RelativeLayout;
 
 import com.example.koverify.camera.CameraActivity;
 import com.example.koverify.camera.PermissionsActivity;
 import com.example.koverify.product_list.drugs.DrugProductListActivity;
+import com.example.koverify.product_list.food.FoodProductListActivity;
 
 public class DashboardActivity extends AppCompatActivity {
-    LinearLayout scanBarcodeButton, viewAllProductsButton, allFoodProductsButton, safeFoodButton, mediumRiskFoodButton,
-            highRiskFoodButton, allDrugProductsButton, humanDrugsButton, veterinaryDrugsButton;
+    LinearLayout scanBarcodeButton, allFoodProductsButton, safeFoodButton, mediumRiskFoodButton,
+            highRiskFoodButton, rawFoodButton, allDrugProductsButton, humanDrugsButton, veterinaryDrugsButton;
+    RelativeLayout headerScanButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,42 +37,43 @@ public class DashboardActivity extends AppCompatActivity {
 
         // Initialize buttons
         scanBarcodeButton = findViewById(R.id.scanBarcodeButton);
-        viewAllProductsButton = findViewById(R.id.viewAllProductsButton);
         allFoodProductsButton = findViewById(R.id.allFoodProductsButton);
         safeFoodButton = findViewById(R.id.safeFoodButton);
         mediumRiskFoodButton = findViewById(R.id.mediumRiskFoodButton);
         highRiskFoodButton = findViewById(R.id.highRiskFoodButton);
+        rawFoodButton = findViewById(R.id.rawFoodButton);
         allDrugProductsButton = findViewById(R.id.allDrugProductsButton);
         humanDrugsButton = findViewById(R.id.humanDrugsButton);
         veterinaryDrugsButton = findViewById(R.id.veterinaryDrugsButton);
+        headerScanButton = findViewById(R.id.headerScanButton);
 
-        // Set OnClickListener for general buttons
-        setButtonClickListener(viewAllProductsButton);
-        setButtonClickListener(allFoodProductsButton);
-        setButtonClickListener(safeFoodButton);
-        setButtonClickListener(mediumRiskFoodButton);
-        setButtonClickListener(highRiskFoodButton);
+
 
         // Set OnClickListener specifically for scanBarcodeButton
         scanBarcodeButton.setOnClickListener(view -> handleScanBarcode());
+        headerScanButton.setOnClickListener(view -> handleScanBarcode());
 
         // Set OnClickListener for drug-related buttons
         allDrugProductsButton.setOnClickListener(view -> openDrugProductListActivity("all"));
         humanDrugsButton.setOnClickListener(view -> openDrugProductListActivity("human"));
         veterinaryDrugsButton.setOnClickListener(view -> openDrugProductListActivity("vet"));
-    }
 
-    // Method to handle the click and start the ProductListActivity
-    private void setButtonClickListener(LinearLayout button) {
-        button.setOnClickListener(view -> {
-            Intent intent = new Intent(DashboardActivity.this, DrugProductListActivity.class);
-            startActivity(intent);
-        });
+        // Set OnClickListener for food-related buttons
+        allFoodProductsButton.setOnClickListener(view -> openFoodProductListActivity("all"));
+        safeFoodButton.setOnClickListener(view -> openFoodProductListActivity("l_risk"));
+        mediumRiskFoodButton.setOnClickListener(view -> openFoodProductListActivity("m_risk"));
+        highRiskFoodButton.setOnClickListener(view -> openFoodProductListActivity("h_risk"));
+        rawFoodButton.setOnClickListener(view -> openFoodProductListActivity("raw"));
     }
 
     private void openDrugProductListActivity(String drugType) {
         Intent intent = new Intent(DashboardActivity.this, DrugProductListActivity.class);
         intent.putExtra("drug_type", drugType);
+        startActivity(intent);
+    }
+    private void openFoodProductListActivity(String foodType) {
+        Intent intent = new Intent(DashboardActivity.this, FoodProductListActivity.class);
+        intent.putExtra("food_type", foodType);
         startActivity(intent);
     }
 

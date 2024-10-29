@@ -6,6 +6,7 @@ import android.content.Context;
 import androidx.sqlite.db.SimpleSQLiteQuery;
 import androidx.sqlite.db.SupportSQLiteQuery;
 
+import com.example.koverify.database.FilterParam;
 import com.example.koverify.database.MyDatabase;
 import com.example.koverify.database.ScreenParam;
 import com.example.koverify.database.SearchParam;
@@ -23,7 +24,7 @@ public class DrugRepository {
         drugProductDao = db.drugProductDao();
     }
 
-    public List<DrugListItem> getDrugsList(ScreenParam param, SearchParam searchParam, DrugFilterType filterParam) {
+    public List<DrugListItem> getDrugsList(ScreenParam param, SearchParam searchParam, FilterParam filterParam) {
         int limit = param.getLimit();
         int offset = param.getOffset();
 
@@ -96,7 +97,7 @@ public class DrugRepository {
                             filterQuery = " AND";
                             break;
                         case "drug_type":
-                            if (!value.equals("all")) {
+                            if (!value.equalsIgnoreCase("all")) {
                                 baseQuery.append(filterQuery).append(" drug_type = ?");
                                 queryParams.add(value.equalsIgnoreCase("human") ? "Human" : "Vet");
                                 filterQuery = " AND";

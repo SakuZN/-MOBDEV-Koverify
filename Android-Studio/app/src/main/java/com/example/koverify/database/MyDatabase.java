@@ -22,7 +22,7 @@ import com.example.koverify.database.foods.FoodProductDao;
         FoodProduct.class
 }, views = {
         DrugListItem.class
-}, version = 3, exportSchema = false)
+}, version = 4, exportSchema = false)
 public abstract class MyDatabase extends RoomDatabase {
 
     public abstract DrugProductDao drugProductDao();
