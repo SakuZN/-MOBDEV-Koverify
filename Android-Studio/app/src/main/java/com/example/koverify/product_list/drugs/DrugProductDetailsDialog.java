@@ -1,5 +1,6 @@
 package com.example.koverify.product_list.drugs;
 
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -17,17 +18,40 @@ import android.widget.TextView;
 import com.example.koverify.R;
 import com.example.koverify.database.drugs.HumanDrug;
 import com.example.koverify.database.drugs.VetDrug;
+import com.example.koverify.product_list.food.FoodProductDetailsDialog;
 
 public class DrugProductDetailsDialog extends DialogFragment {
 
     private String regNum;
     private String drugType;
+    private String sku;
+    private DrugProductDetailsDialog.OnDismissListener dismissListener;
+
+    public interface OnDismissListener {
+        void onDismiss();
+    }
+
+    public void setOnDismissListener(DrugProductDetailsDialog.OnDismissListener listener) {
+        this.dismissListener = listener;
+    }
 
     public static DrugProductDetailsDialog newInstance(String regNum, String drugType) {
         DrugProductDetailsDialog fragment = new DrugProductDetailsDialog();
         Bundle args = new Bundle();
         args.putString("reg_num", regNum);
         args.putString("drug_type", drugType);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static DrugProductDetailsDialog newInstanceSKU(String sku) {
+        DrugProductDetailsDialog fragment = new DrugProductDetailsDialog();
+        Bundle args = new Bundle();
+        args.putString("sku", sku);
+        if (sku.charAt(0) == '2')
+            args.putString("drug_type", "Human");
+        else
+            args.putString("drug_type", "Vet");
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,18 +96,35 @@ public class DrugProductDetailsDialog extends DialogFragment {
         // Use ViewModel to fetch product details
         DrugProductDetailsViewModel viewModel = new ViewModelProvider(this).get(DrugProductDetailsViewModel.class);
         if ("Human".equals(drugType)) {
-            viewModel.getHumanDrugDetails(regNum).observe(getViewLifecycleOwner(), humanDrug -> {
-                if (humanDrug != null) {
-                    displayHumanDrugDetails(view, humanDrug);
-                }
-            });
+            if (regNum != null) {
+                viewModel.getHumanDrugDetails(regNum).observe(getViewLifecycleOwner(), humanDrug -> {
+                    if (humanDrug != null) {
+                        displayHumanDrugDetails(view, humanDrug);
+                    }
+                });
+            }
+            else if (sku != null) {
+                viewModel.getHumanDrugDetailsSKU(sku).observe(getViewLifecycleOwner(), humanDrug -> {
+                    if (humanDrug != null) {
+                        displayHumanDrugDetails(view, humanDrug);
+                    }
+                });
+            }
         } else if ("Vet".equals(drugType)) {
-            viewModel.getVetDrugDetails(regNum).observe(getViewLifecycleOwner(), vetDrug -> {
-                if (vetDrug != null) {
-                    // Display vet drug details
-                    displayVetDrugDetails(view, vetDrug);
-                }
-            });
+            if (regNum != null) {
+                viewModel.getVetDrugDetails(regNum).observe(getViewLifecycleOwner(), vetDrug -> {
+                    if (vetDrug != null) {
+                        displayVetDrugDetails(view, vetDrug);
+                    }
+                });
+            }
+            else if (sku != null) {
+                viewModel.getVetDrugDetailsSKU(sku).observe(getViewLifecycleOwner(), vetDrug -> {
+                    if (vetDrug != null) {
+                        displayVetDrugDetails(view, vetDrug);
+                    }
+                });
+            }
         } else {
             // Handle unknown drug type
         }
@@ -183,5 +224,12 @@ public class DrugProductDetailsDialog extends DialogFragment {
         gridLayout.addView(rowLayout);
     }
 
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (dismissListener != null) {
+            dismissListener.onDismiss();
+        }
+    }
 }
 

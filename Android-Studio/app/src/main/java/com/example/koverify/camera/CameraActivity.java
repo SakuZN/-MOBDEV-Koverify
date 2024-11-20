@@ -24,6 +24,8 @@ import androidx.core.content.ContextCompat;
 
 import com.example.koverify.DashboardActivity;
 import com.example.koverify.R;
+import com.example.koverify.product_list.drugs.DrugProductDetailsDialog;
+import com.example.koverify.product_list.food.FoodProductDetailsDialog;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
@@ -38,6 +40,7 @@ public class CameraActivity extends AppCompatActivity {
     private QrCodeDrawable qrCodeDrawable;
     private QrCodeViewModel qrCodeViewModel;
     private BarcodeScanner barcodeScanner;
+    private boolean isScanning = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,13 +131,17 @@ public class CameraActivity extends AppCompatActivity {
                     .addOnSuccessListener(barcodes -> {
                         if (!barcodes.isEmpty()) {
                             Barcode barcode = barcodes.get(0); // Assuming single barcode
-                            if (barcode.getRawValue() != null) {
+                            if (barcode.getRawValue() != null && !isScanning) {
                                 // Update UI with the detected barcode
-                                updateUIWithQrCode(barcode);
+//                                updateUIWithQrCode(barcode);
+                                // do code here
+//                                System.out.println("Barcode detected: " + barcode.getRawValue());
+                                isScanning = true;
+                                showProductDetailsDialog(barcode.getRawValue());
                             }
-                        } else {
-                            // No barcode detected, clear overlay
-                            clearQrCodeOverlay();
+                        }
+                        else {
+//                            clearQrCodeOverlay();
                         }
                     })
                     .addOnFailureListener(e -> {
@@ -207,5 +214,27 @@ public class CameraActivity extends AppCompatActivity {
         super.onDestroy();
         // Close the barcode scanner
         barcodeScanner.close();
+    }
+
+    private void showProductDetailsDialog(String sku) {
+        switch (sku.charAt(0)) {
+            case '1': { // Food products
+                FoodProductDetailsDialog dialog = FoodProductDetailsDialog.newInstanceSKU(sku);
+                dialog.show(getSupportFragmentManager(), "FoodProductDetailsDialog");
+                dialog.setOnDismissListener(() -> {
+                    isScanning = false; // Reset the flag when the dialog is dismissed
+                });
+                break;
+            }
+            case '2': // Human drug products
+            case '3': { // Vet drug products
+                DrugProductDetailsDialog dialog = DrugProductDetailsDialog.newInstanceSKU(sku);
+                dialog.show(getSupportFragmentManager(), "DrugProductDetailsDialog");
+                dialog.setOnDismissListener(() -> {
+                    isScanning = false; // Reset the flag when the dialog is dismissed
+                });
+                break;
+            }
+        }
     }
 }

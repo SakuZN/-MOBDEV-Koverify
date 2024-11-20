@@ -14,6 +14,9 @@ public interface FoodProductDao {
     @Query("SELECT * FROM food_products WHERE reg_num = :regNum LIMIT 1")
     FoodProduct getFoodInfo(String regNum);
 
+    @Query("SELECT * FROM food_products WHERE sku = :sku LIMIT 1")
+    FoodProduct getFoodInfoSKU(String sku);
+
     @RawQuery
     List<FoodProduct> getFoodsList(SupportSQLiteQuery query);
 }

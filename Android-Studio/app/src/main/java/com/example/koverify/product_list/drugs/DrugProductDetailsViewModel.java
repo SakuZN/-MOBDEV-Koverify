@@ -29,10 +29,28 @@ public class DrugProductDetailsViewModel extends AndroidViewModel {
         return data;
     }
 
+    public LiveData<HumanDrug> getHumanDrugDetailsSKU(String sku) {
+        MutableLiveData<HumanDrug> data = new MutableLiveData<>();
+        Executors.newSingleThreadExecutor().execute(() -> {
+            HumanDrug humanDrug = drugProductDao.getHumanDrugInfoSKU(sku);
+            data.postValue(humanDrug);
+        });
+        return data;
+    }
+
     public LiveData<VetDrug> getVetDrugDetails(String regNum) {
         MutableLiveData<VetDrug> data = new MutableLiveData<>();
         Executors.newSingleThreadExecutor().execute(() -> {
             VetDrug vetDrug = drugProductDao.getVetDrugInfo(regNum);
+            data.postValue(vetDrug);
+        });
+        return data;
+    }
+
+    public LiveData<VetDrug> getVetDrugDetailsSKU(String sku) {
+        MutableLiveData<VetDrug> data = new MutableLiveData<>();
+        Executors.newSingleThreadExecutor().execute(() -> {
+            VetDrug vetDrug = drugProductDao.getVetDrugInfoSKU(sku);
             data.postValue(vetDrug);
         });
         return data;

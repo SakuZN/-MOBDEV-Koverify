@@ -26,4 +26,13 @@ public class FoodProductDetailsViewModel extends AndroidViewModel {
         });
         return data;
     }
+
+    public LiveData<FoodProduct> getFoodProductDetailsSKU(String sku) {
+        MutableLiveData<FoodProduct> data = new MutableLiveData<>();
+        Executors.newSingleThreadExecutor().execute(() -> {
+            FoodProduct foodProduct = foodProductDao.getFoodInfoSKU(sku);
+            data.postValue(foodProduct);
+        });
+        return data;
+    }
 }
