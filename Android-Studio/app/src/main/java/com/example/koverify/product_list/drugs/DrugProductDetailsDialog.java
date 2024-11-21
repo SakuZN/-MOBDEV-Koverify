@@ -77,6 +77,7 @@ public class DrugProductDetailsDialog extends DialogFragment {
         if (getArguments() != null) {
             regNum = getArguments().getString("reg_num");
             drugType = getArguments().getString("drug_type");
+            sku = getArguments().getString("sku");
         }
 
         // Initialize views

@@ -66,11 +66,8 @@ public class CameraActivity extends AppCompatActivity {
         // Initialize ML Kit Barcode Scanner with QR code format
         BarcodeScannerOptions options = new BarcodeScannerOptions.Builder()
                 .setBarcodeFormats(
-                        Barcode.FORMAT_QR_CODE,
-                        Barcode.FORMAT_EAN_13,
-                        Barcode.FORMAT_EAN_8,
-                        Barcode.FORMAT_UPC_A,
-                        Barcode.FORMAT_UPC_E
+                        Barcode.FORMAT_CODE_128,
+                        Barcode.FORMAT_CODE_39
                 )
                 .build();
         barcodeScanner = BarcodeScanning.getClient(options);
@@ -135,13 +132,13 @@ public class CameraActivity extends AppCompatActivity {
                                 // Update UI with the detected barcode
 //                                updateUIWithQrCode(barcode);
                                 // do code here
-//                                System.out.println("Barcode detected: " + barcode.getRawValue());
+                                System.out.println("Barcode detected: " + barcode.getRawValue());
                                 isScanning = true;
                                 showProductDetailsDialog(barcode.getRawValue());
                             }
                         }
                         else {
-//                            clearQrCodeOverlay();
+                            clearQrCodeOverlay();
                         }
                     })
                     .addOnFailureListener(e -> {
