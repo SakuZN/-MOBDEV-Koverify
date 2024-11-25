@@ -1,10 +1,13 @@
 package com.example.koverify;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
@@ -64,6 +67,13 @@ public class DashboardActivity extends AppCompatActivity {
         mediumRiskFoodButton.setOnClickListener(view -> openFoodProductListActivity("m_risk"));
         highRiskFoodButton.setOnClickListener(view -> openFoodProductListActivity("h_risk"));
         rawFoodButton.setOnClickListener(view -> openFoodProductListActivity("raw"));
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                showExitConfirmationDialog();
+            }
+        });
     }
 
     private void openDrugProductListActivity(String drugType) {
@@ -97,5 +107,24 @@ public class DashboardActivity extends AppCompatActivity {
     private void navigateToCamera() {
         Intent intent = new Intent(DashboardActivity.this, CameraActivity.class);
         startActivity(intent);
+    }
+
+    private void showExitConfirmationDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Exit App")
+                .setMessage("Are you sure you want to exit?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finishAffinity(); // Exit the app
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss(); // Close the dialog
+                    }
+                })
+                .show();
     }
 }

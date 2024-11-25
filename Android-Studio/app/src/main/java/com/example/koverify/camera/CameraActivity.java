@@ -1,6 +1,7 @@
 package com.example.koverify.camera;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -21,8 +22,10 @@ import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.koverify.DashboardActivity;
+import com.example.koverify.LoadingDialog;
 import com.example.koverify.R;
 import com.example.koverify.product_list.drugs.DrugProductDetailsDialog;
 import com.example.koverify.product_list.food.FoodProductDetailsDialog;
@@ -34,6 +37,9 @@ import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class CameraActivity extends AppCompatActivity {
     private PreviewView previewView;
     private ImageView scanAreaIcon;
@@ -41,6 +47,9 @@ public class CameraActivity extends AppCompatActivity {
     private QrCodeViewModel qrCodeViewModel;
     private BarcodeScanner barcodeScanner;
     private boolean isScanning = false;
+    private ProductViewModel productViewModel;
+    private final ExecutorService cameraExecutor = Executors.newSingleThreadExecutor();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +64,7 @@ public class CameraActivity extends AppCompatActivity {
 
         previewView = findViewById(R.id.previewView);
         scanAreaIcon = findViewById(R.id.scanAreaIcon);
+        productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
@@ -67,7 +77,9 @@ public class CameraActivity extends AppCompatActivity {
         BarcodeScannerOptions options = new BarcodeScannerOptions.Builder()
                 .setBarcodeFormats(
                         Barcode.FORMAT_CODE_128,
-                        Barcode.FORMAT_CODE_39
+                        Barcode.FORMAT_CODE_39,
+                        Barcode.FORMAT_EAN_13,
+                        Barcode.TYPE_PRODUCT
                 )
                 .build();
         barcodeScanner = BarcodeScanning.getClient(options);
@@ -114,7 +126,7 @@ public class CameraActivity extends AppCompatActivity {
                 .build();
 
         // Set up the analyzer
-        imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(this), imageProxy -> {
+        imageAnalysis.setAnalyzer(cameraExecutor, imageProxy -> {
             if (imageProxy.getImage() == null) {
                 imageProxy.close();
                 return;
@@ -128,22 +140,20 @@ public class CameraActivity extends AppCompatActivity {
                     .addOnSuccessListener(barcodes -> {
                         if (!barcodes.isEmpty()) {
                             Barcode barcode = barcodes.get(0); // Assuming single barcode
+                            System.out.println("Barcode detected: " + barcode.getRawValue());
                             if (barcode.getRawValue() != null && !isScanning) {
-                                // Update UI with the detected barcode
-//                                updateUIWithQrCode(barcode);
-                                // do code here
-                                System.out.println("Barcode detected: " + barcode.getRawValue());
-                                isScanning = true;
+                                //updateUIWithQrCode(barcode);
                                 showProductDetailsDialog(barcode.getRawValue());
                             }
-                        }
-                        else {
+                        } else {
                             clearQrCodeOverlay();
                         }
                     })
                     .addOnFailureListener(e -> {
                         // Handle any errors
-                        Toast.makeText(CameraActivity.this, "Barcode scanning failed", Toast.LENGTH_SHORT).show();
+                        runOnUiThread(() ->
+                                Toast.makeText(CameraActivity.this, "Barcode scanning failed", Toast.LENGTH_SHORT).show()
+                        );
                         clearQrCodeOverlay();
                     })
                     .addOnCompleteListener(task -> {
@@ -151,6 +161,7 @@ public class CameraActivity extends AppCompatActivity {
                         imageProxy.close();
                     });
         });
+
 
         // Select back camera as default
         CameraSelector cameraSelector = new CameraSelector.Builder()
@@ -189,6 +200,11 @@ public class CameraActivity extends AppCompatActivity {
         // Clear any existing overlays
         previewView.getOverlay().clear();
 
+        // Map the bounding rectangle to view coordinates
+        Rect boundingRect = qrCodeViewModel.getBoundingRect();
+        Rect transformedRect = transformRect(boundingRect);
+        qrCodeViewModel.setBoundingRect(transformedRect);
+
         // Add the new drawable
         previewView.getOverlay().add(qrCodeDrawable);
 
@@ -197,6 +213,29 @@ public class CameraActivity extends AppCompatActivity {
             previewView.setOnTouchListener(qrCodeViewModel.getQrCodeTouchCallback());
         }
     }
+
+    private Rect transformRect(Rect barcodeRect) {
+        // Get the dimensions of the PreviewView
+        int previewWidth = previewView.getWidth();
+        int previewHeight = previewView.getHeight();
+
+        // Get the dimensions of the camera image
+        int imageWidth = previewView.getWidth();
+        int imageHeight = previewView.getHeight();
+
+        // Calculate the scale factors
+        float scaleX = (float) previewWidth / imageWidth;
+        float scaleY = (float) previewHeight / imageHeight;
+
+        // Apply scaling to the bounding rectangle
+        int left = (int) (barcodeRect.left * scaleX);
+        int top = (int) (barcodeRect.top * scaleY);
+        int right = (int) (barcodeRect.right * scaleX);
+        int bottom = (int) (barcodeRect.bottom * scaleY);
+
+        return new Rect(left, top, right, bottom);
+    }
+
 
     /**
      * Clears the QR code overlay from the UI.
@@ -211,27 +250,45 @@ public class CameraActivity extends AppCompatActivity {
         super.onDestroy();
         // Close the barcode scanner
         barcodeScanner.close();
+        cameraExecutor.shutdown();
     }
 
     private void showProductDetailsDialog(String sku) {
-        switch (sku.charAt(0)) {
-            case '1': { // Food products
-                FoodProductDetailsDialog dialog = FoodProductDetailsDialog.newInstanceSKU(sku);
-                dialog.show(getSupportFragmentManager(), "FoodProductDetailsDialog");
-                dialog.setOnDismissListener(() -> {
-                    isScanning = false; // Reset the flag when the dialog is dismissed
-                });
-                break;
+        if (isScanning) return; // Prevent multiple scans
+
+        isScanning = true; // Set scanning flag
+
+        LoadingDialog loadingDialog = LoadingDialog.newInstance();
+        loadingDialog.show(getSupportFragmentManager(), "LoadingDialog");
+        System.out.println("Here inside showProductDetailsDialog!");
+        productViewModel.getProductType(sku).observe(this, productType -> {
+            loadingDialog.dismiss(); // Dismiss loading spinner
+
+            switch (productType) {
+                case "Food":
+                    showFoodProductDialog(sku);
+                    break;
+                case "HumanDrug":
+                case "VetDrug":
+                    showDrugProductDialog(sku, productType);
+                    break;
+                default:
+                    Toast.makeText(this, "Product not found", Toast.LENGTH_SHORT).show();
+                    isScanning = false;
+                    break;
             }
-            case '2': // Human drug products
-            case '3': { // Vet drug products
-                DrugProductDetailsDialog dialog = DrugProductDetailsDialog.newInstanceSKU(sku);
-                dialog.show(getSupportFragmentManager(), "DrugProductDetailsDialog");
-                dialog.setOnDismissListener(() -> {
-                    isScanning = false; // Reset the flag when the dialog is dismissed
-                });
-                break;
-            }
-        }
+        });
+    }
+
+    private void showFoodProductDialog(String sku) {
+        FoodProductDetailsDialog dialog = FoodProductDetailsDialog.newInstanceSKU(sku);
+        dialog.show(getSupportFragmentManager(), "FoodProductDetailsDialog");
+        dialog.setOnDismissListener(() -> isScanning = false);
+    }
+
+    private void showDrugProductDialog(String sku, String drugType) {
+        DrugProductDetailsDialog dialog = DrugProductDetailsDialog.newInstanceSKU(sku, drugType);
+        dialog.show(getSupportFragmentManager(), "DrugProductDetailsDialog");
+        dialog.setOnDismissListener(() -> isScanning = false);
     }
 }

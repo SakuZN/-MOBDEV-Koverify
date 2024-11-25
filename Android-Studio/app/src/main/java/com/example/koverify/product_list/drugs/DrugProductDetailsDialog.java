@@ -1,3 +1,4 @@
+// DrugProductDetailsDialog.java
 package com.example.koverify.product_list.drugs;
 
 import android.content.DialogInterface;
@@ -13,25 +14,27 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.koverify.R;
 import com.example.koverify.database.drugs.HumanDrug;
 import com.example.koverify.database.drugs.VetDrug;
-import com.example.koverify.product_list.food.FoodProductDetailsDialog;
+import com.example.koverify.product_list.drugs.DrugProductDetailsViewModel;
 
 public class DrugProductDetailsDialog extends DialogFragment {
 
     private String regNum;
     private String drugType;
     private String sku;
-    private DrugProductDetailsDialog.OnDismissListener dismissListener;
+    private OnDismissListener dismissListener;
 
     public interface OnDismissListener {
         void onDismiss();
     }
 
-    public void setOnDismissListener(DrugProductDetailsDialog.OnDismissListener listener) {
+    public void setOnDismissListener(OnDismissListener listener) {
         this.dismissListener = listener;
     }
 
@@ -44,19 +47,14 @@ public class DrugProductDetailsDialog extends DialogFragment {
         return fragment;
     }
 
-    public static DrugProductDetailsDialog newInstanceSKU(String sku) {
+    // Updated newInstanceSKU to accept drugType
+    public static DrugProductDetailsDialog newInstanceSKU(String sku, String drugType) {
         DrugProductDetailsDialog fragment = new DrugProductDetailsDialog();
         Bundle args = new Bundle();
         args.putString("sku", sku);
-        if (sku.charAt(0) == '2')
-            args.putString("drug_type", "Human");
-        else
-            args.putString("drug_type", "Vet");
+        args.putString("drug_type", drugType);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public DrugProductDetailsDialog() {
     }
 
     @Override
@@ -81,64 +79,93 @@ public class DrugProductDetailsDialog extends DialogFragment {
         }
 
         // Initialize views
-        // ...
+        ProgressBar loadingSpinner = view.findViewById(R.id.loadingSpinner);
+        GridLayout detailsGrid = view.findViewById(R.id.detailsGrid);
+        Button okButton = view.findViewById(R.id.okButton);
+
+        // Initially show the spinner and hide other views
+        loadingSpinner.setVisibility(View.VISIBLE);
+        detailsGrid.setVisibility(View.GONE);
+        okButton.setVisibility(View.GONE);
 
         // Load product details
-        loadProductDetails(view);
+        loadProductDetails(view, loadingSpinner, detailsGrid, okButton);
 
         // Set up OK button
-        Button okButton = view.findViewById(R.id.okButton);
         okButton.setOnClickListener(v -> dismiss());
 
         return view;
     }
 
-    private void loadProductDetails(View view) {
+    private void loadProductDetails(View view, ProgressBar loadingSpinner, GridLayout detailsGrid, Button okButton) {
         // Use ViewModel to fetch product details
         DrugProductDetailsViewModel viewModel = new ViewModelProvider(this).get(DrugProductDetailsViewModel.class);
-        if ("Human".equals(drugType)) {
+
+        if ("HumanDrug".equals(drugType)) {
             if (regNum != null) {
                 viewModel.getHumanDrugDetails(regNum).observe(getViewLifecycleOwner(), humanDrug -> {
+                    loadingSpinner.setVisibility(View.GONE);
                     if (humanDrug != null) {
-                        displayHumanDrugDetails(view, humanDrug);
+                        displayHumanDrugDetails(view, humanDrug, detailsGrid);
+                        detailsGrid.setVisibility(View.VISIBLE);
+                        okButton.setVisibility(View.VISIBLE);
+                    } else {
+                        Toast.makeText(getContext(), "Human Drug not found", Toast.LENGTH_SHORT).show();
+                        dismiss();
                     }
                 });
-            }
-            else if (sku != null) {
+            } else if (sku != null) {
                 viewModel.getHumanDrugDetailsSKU(sku).observe(getViewLifecycleOwner(), humanDrug -> {
+                    loadingSpinner.setVisibility(View.GONE);
                     if (humanDrug != null) {
-                        displayHumanDrugDetails(view, humanDrug);
+                        displayHumanDrugDetails(view, humanDrug, detailsGrid);
+                        detailsGrid.setVisibility(View.VISIBLE);
+                        okButton.setVisibility(View.VISIBLE);
+                    } else {
+                        Toast.makeText(getContext(), "Human Drug not found", Toast.LENGTH_SHORT).show();
+                        dismiss();
                     }
                 });
             }
-        } else if ("Vet".equals(drugType)) {
+        } else if ("VetDrug".equals(drugType)) {
             if (regNum != null) {
                 viewModel.getVetDrugDetails(regNum).observe(getViewLifecycleOwner(), vetDrug -> {
+                    loadingSpinner.setVisibility(View.GONE);
                     if (vetDrug != null) {
-                        displayVetDrugDetails(view, vetDrug);
+                        displayVetDrugDetails(view, vetDrug, detailsGrid);
+                        detailsGrid.setVisibility(View.VISIBLE);
+                        okButton.setVisibility(View.VISIBLE);
+                    } else {
+                        Toast.makeText(getContext(), "Vet Drug not found", Toast.LENGTH_SHORT).show();
+                        dismiss();
                     }
                 });
-            }
-            else if (sku != null) {
+            } else if (sku != null) {
                 viewModel.getVetDrugDetailsSKU(sku).observe(getViewLifecycleOwner(), vetDrug -> {
+                    loadingSpinner.setVisibility(View.GONE);
                     if (vetDrug != null) {
-                        displayVetDrugDetails(view, vetDrug);
+                        displayVetDrugDetails(view, vetDrug, detailsGrid);
+                        detailsGrid.setVisibility(View.VISIBLE);
+                        okButton.setVisibility(View.VISIBLE);
+                    } else {
+                        Toast.makeText(getContext(), "Vet Drug not found", Toast.LENGTH_SHORT).show();
+                        dismiss();
                     }
                 });
             }
         } else {
             // Handle unknown drug type
+            Toast.makeText(getContext(), "Unknown Drug Type", Toast.LENGTH_SHORT).show();
+            loadingSpinner.setVisibility(View.GONE);
+            dismiss();
         }
     }
 
-    private void displayHumanDrugDetails(View view, HumanDrug humanDrug) {
-        GridLayout detailsGrid = view.findViewById(R.id.detailsGrid);
-
+    private void displayHumanDrugDetails(View view, HumanDrug humanDrug, GridLayout detailsGrid) {
         // Clear existing views
         detailsGrid.removeAllViews();
-        System.out.println("Displaying human drug details:" + humanDrug.drugProduct.getReg_num());
 
-        // Add details from DrugProduct
+        // Add details from DrugProduct and HumanDrugInfo
         addDetailRow(detailsGrid, "Registration Number", humanDrug.drugProduct.getReg_num());
         addDetailRow(detailsGrid, "Brand Name", humanDrug.drugProduct.getBrand_name());
         addDetailRow(detailsGrid, "Generic Name", humanDrug.drugProduct.getGeneric_name());
@@ -158,15 +185,11 @@ public class DrugProductDetailsDialog extends DialogFragment {
         addDetailRow(detailsGrid, "Distributor", humanDrug.humanDrugInfo.getDistributor());
     }
 
-
-
-    private void displayVetDrugDetails(View view, VetDrug vetDrug) {
-        GridLayout detailsGrid = view.findViewById(R.id.detailsGrid);
-
+    private void displayVetDrugDetails(View view, VetDrug vetDrug, GridLayout detailsGrid) {
         // Clear existing views
         detailsGrid.removeAllViews();
 
-        // Add details from DrugProduct
+        // Add details from DrugProduct and VetDrugInfo
         addDetailRow(detailsGrid, "Registration Number", vetDrug.drugProduct.getReg_num());
         addDetailRow(detailsGrid, "Brand Name", vetDrug.drugProduct.getBrand_name());
         addDetailRow(detailsGrid, "Generic Name", vetDrug.drugProduct.getGeneric_name());
@@ -185,7 +208,6 @@ public class DrugProductDetailsDialog extends DialogFragment {
         addDetailRow(detailsGrid, "Importer", vetDrug.vetDrugInfo.getImporter());
         addDetailRow(detailsGrid, "Distributor", vetDrug.vetDrugInfo.getDistributor());
     }
-
 
     private void addDetailRow(GridLayout gridLayout, String label, String value) {
         // Create a new LinearLayout
@@ -233,4 +255,3 @@ public class DrugProductDetailsDialog extends DialogFragment {
         }
     }
 }
-

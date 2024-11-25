@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -9,37 +10,31 @@
     tools:context=".DashboardActivity">
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="1dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginEnd="1dp"
             android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:padding="16dp">
 
+            <!-- Header Section -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
                 <TextView
                     android:id="@+id/topbarHeader"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:fontFamily="@font/sfpro_display_black"
                     android:letterSpacing="0.15"
                     android:text="Koverify"
@@ -48,390 +43,436 @@
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
+                <RelativeLayout
+                    android:id="@+id/headerScanButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/header_button_background"
+                    android:elevation="10dp"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:id="@+id/headerScanImage"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerInParent="true"
+                        app:srcCompat="@drawable/scan" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <!-- Quick Actions Section -->
+            <TextView
+                android:id="@+id/quickActionsLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/sfpro_text_bold"
+                android:text="Quick Actions"
+                android:textColor="#1A1A1A"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:weightSum="2">
+
+                <!-- Scan Barcode Button -->
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:id="@+id/scanBarcodeButton"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bordered"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:id="@+id/scanBarcodeImage"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/scan_line" />
 
                     <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="fill_parent"
+                        android:id="@+id/scanBarcodeText"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <RelativeLayout
-                        android:id="@+id/headerScanButton"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_marginLeft="2dp"
-
-                        android:layout_marginRight="2dp"
-                        android:background="@drawable/header_button_background"
-                        android:elevation="10dp">
-
-                        <ImageView
-                            android:id="@+id/imageView2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            app:srcCompat="@drawable/scan" />
-                    </RelativeLayout>
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/sfpro_text_semibold"
+                        android:text="Scan Barcode"
+                        android:textColor="#1A1A1A"
+                        android:textSize="14sp" />
                 </LinearLayout>
 
+                <!-- Add more Quick Action Buttons here if needed -->
+                <!-- Example: Another Quick Action Button -->
+                <!--
+                <LinearLayout
+                    android:id="@+id/anotherQuickActionButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bordered"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:id="@+id/anotherQuickActionImage"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/another_icon" />
+
+                    <TextView
+                        android:id="@+id/anotherQuickActionText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/sfpro_text_semibold"
+                        android:text="Another Action"
+                        android:textColor="#1A1A1A"
+                        android:textSize="14sp" />
+                </LinearLayout>
+                -->
             </LinearLayout>
+
+            <!-- View Food Products Section -->
+            <TextView
+                android:id="@+id/viewFoodProductsLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/sfpro_text_bold"
+                android:text="View Food Products"
+                android:textColor="#1A1A1A"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:weightSum="2">
 
-                <TextView
-                    android:id="@+id/quickActionsLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/sfpro_text_bold"
-                    android:text="Quick Actions"
-                    android:textColor="#1A1A1A"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
+                <!-- All Food Products Button -->
                 <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:id="@+id/allFoodProductsButton"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bordered"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true">
 
-                    <LinearLayout
-                        android:id="@+id/scanBarcodeButton"
-                        android:layout_width="175dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/bordered"
-                        android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/allFoodProductsImage"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/egg" />
 
-                        <ImageView
-                            android:id="@+id/imageView3"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_marginLeft="111dp"
-                            android:layout_marginTop="20dp"
-                            app:srcCompat="@drawable/scan_line" />
+                    <TextView
+                        android:id="@+id/allFoodProductsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/sfpro_text_semibold"
+                        android:text="All Food Products"
+                        android:textColor="#1A1A1A"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/textView4"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="24dp"
-                            android:fontFamily="@font/sfpro_text_semibold"
-                            android:text="Scan Barcode"
-                            android:textAlignment="viewEnd"
-                            android:textColor="#1A1A1A"
-                            android:textSize="14sp" />
-                    </LinearLayout>
+                <!-- Safe Food Button -->
+                <LinearLayout
+                    android:id="@+id/safeFoodButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bordered"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true">
 
+                    <ImageView
+                        android:id="@+id/safeFoodImage"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/diamond"/>
+
+                    <TextView
+                        android:id="@+id/safeFoodText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/sfpro_text_semibold"
+                        android:text="Safe Food"
+                        android:textColor="#1A1A1A"
+                        android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
+
+            <!-- Medium-Risk and High-Risk Food Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:weightSum="2">
+
+                <!-- Medium-Risk Food Button -->
+                <LinearLayout
+                    android:id="@+id/mediumRiskFoodButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bordered"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:id="@+id/mediumRiskFoodImage"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/hexagon" />
+
+                    <TextView
+                        android:id="@+id/mediumRiskFoodText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/sfpro_text_semibold"
+                        android:text="Medium-Risk Food"
+                        android:textColor="#1A1A1A"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <!-- High-Risk Food Button -->
+                <LinearLayout
+                    android:id="@+id/highRiskFoodButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bordered"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:id="@+id/highRiskFoodImage"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/octagon"/>
+
+                    <TextView
+                        android:id="@+id/highRiskFoodText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/sfpro_text_semibold"
+                        android:text="High-Risk Food"
+                        android:textColor="#1A1A1A"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Raw Food Materials Button -->
+            <LinearLayout
+                android:id="@+id/rawFoodButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bordered"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:id="@+id/rawFoodImage"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/hexagon" />
+
+                    <TextView
+                        android:id="@+id/rawFoodText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/sfpro_text_semibold"
+                        android:text="Raw Food Materials"
+                        android:textColor="#1A1A1A"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <!-- Optional: Add another button or leave space -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent" />
+            </LinearLayout>
+
+            <!-- View Drug Products Section -->
+            <TextView
+                android:id="@+id/viewDrugProductsLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/sfpro_text_bold"
+                android:text="View Drug Products"
+                android:textColor="#1A1A1A"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="24dp"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:weightSum="2">
 
-                <TextView
-                    android:id="@+id/viewFoodProductsLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/sfpro_text_bold"
-                    android:text="View Food Products"
-                    android:textColor="#1A1A1A"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
+                <!-- All Drug Products Button -->
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:id="@+id/allDrugProductsButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bordered"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true">
 
-                    <LinearLayout
-                        android:id="@+id/allFoodProductsButton"
-                        android:layout_width="175dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/bordered"
-                        android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/allDrugProductsImage"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/pill"/>
 
-                        <ImageView
-                            android:id="@+id/imageView3"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_marginLeft="111dp"
-                            android:layout_marginTop="20dp"
-                            app:srcCompat="@drawable/egg" />
-
-                        <TextView
-                            android:id="@+id/textView4"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="24dp"
-                            android:fontFamily="@font/sfpro_text_semibold"
-                            android:text="All Food Products"
-                            android:textAlignment="viewEnd"
-                            android:textColor="#1A1A1A"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/safeFoodButton"
-                        android:layout_width="175dp"
-                        android:layout_height="100dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/bordered"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:id="@+id/imageView3"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_marginLeft="111dp"
-                            android:layout_marginTop="20dp"
-                            app:srcCompat="@drawable/diamond" />
-
-                        <TextView
-                            android:id="@+id/textView4"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="24dp"
-                            android:fontFamily="@font/sfpro_text_semibold"
-                            android:text="Safe Food"
-                            android:textAlignment="viewEnd"
-                            android:textColor="#1A1A1A"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-
+                    <TextView
+                        android:id="@+id/allDrugProductsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/sfpro_text_semibold"
+                        android:text="All Drug Products"
+                        android:textColor="#1A1A1A"
+                        android:textSize="14sp" />
                 </LinearLayout>
 
+                <!-- Human Drugs Button -->
                 <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:id="@+id/humanDrugsButton"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10sp"
-                    android:orientation="horizontal">
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bordered"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true">
 
-                    <LinearLayout
-                        android:id="@+id/mediumRiskFoodButton"
-                        android:layout_width="175dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/bordered"
-                        android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/humanDrugsImage"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/stethoscope" />
 
-                        <ImageView
-                            android:id="@+id/imageView3"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_marginLeft="111dp"
-                            android:layout_marginTop="20dp"
-                            app:srcCompat="@drawable/hexagon" />
-
-                        <TextView
-                            android:id="@+id/textView4"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="24dp"
-                            android:fontFamily="@font/sfpro_text_semibold"
-                            android:text="Medium-Risk Food"
-                            android:textAlignment="viewEnd"
-                            android:textColor="#1A1A1A"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/highRiskFoodButton"
-                        android:layout_width="175dp"
-                        android:layout_height="100dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/bordered"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:id="@+id/imageView3"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_marginLeft="111dp"
-                            android:layout_marginTop="20dp"
-                            app:srcCompat="@drawable/octagon" />
-
-                        <TextView
-                            android:id="@+id/textView4"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="24dp"
-                            android:fontFamily="@font/sfpro_text_semibold"
-                            android:text="High-Risk Food"
-                            android:textAlignment="viewEnd"
-                            android:textColor="#1A1A1A"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10sp"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:id="@+id/rawFoodButton"
-                        android:layout_width="175dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/bordered"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:id="@+id/imageView3"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_marginLeft="111dp"
-                            android:layout_marginTop="20dp"
-                            app:srcCompat="@drawable/hexagon" />
-
-                        <TextView
-                            android:id="@+id/textView4"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="24dp"
-                            android:fontFamily="@font/sfpro_text_semibold"
-                            android:text="Raw Food Materials"
-                            android:textAlignment="viewEnd"
-                            android:textColor="#1A1A1A"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-
+                    <TextView
+                        android:id="@+id/humanDrugsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/sfpro_text_semibold"
+                        android:text="Human Drugs"
+                        android:textColor="#1A1A1A"
+                        android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
 
+            <!-- Veterinary Drugs Button -->
             <LinearLayout
+                android:id="@+id/veterinaryDrugsButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="24dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/viewDrugProductsLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/sfpro_text_bold"
-                    android:text="View Drug Products"
-                    android:textColor="#1A1A1A"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:weightSum="2">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:id="@+id/allDrugProductsButton"
-                        android:layout_width="175dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/bordered"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:id="@+id/imageView3"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_marginLeft="111dp"
-                            android:layout_marginTop="20dp"
-                            app:srcCompat="@drawable/pill" />
-
-                        <TextView
-                            android:id="@+id/textView4"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="24dp"
-                            android:fontFamily="@font/sfpro_text_semibold"
-                            android:text="All Drug Products"
-                            android:textAlignment="viewEnd"
-                            android:textColor="#1A1A1A"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/humanDrugsButton"
-                        android:layout_width="175dp"
-                        android:layout_height="100dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/bordered"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:id="@+id/imageView3"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_marginLeft="111dp"
-                            android:layout_marginTop="20dp"
-                            app:srcCompat="@drawable/stethoscope" />
-
-                        <TextView
-                            android:id="@+id/textView4"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="24dp"
-                            android:fontFamily="@font/sfpro_text_semibold"
-                            android:text="Human Drugs"
-                            android:textAlignment="viewEnd"
-                            android:textColor="#1A1A1A"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10sp"
-                    android:orientation="horizontal">
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bordered"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true">
 
-                    <LinearLayout
-                        android:id="@+id/veterinaryDrugsButton"
-                        android:layout_width="175dp"
-                        android:layout_height="100dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/bordered"
-                        android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/veterinaryDrugsImage"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/cat" />
 
-                        <ImageView
-                            android:id="@+id/imageView3"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_marginLeft="111dp"
-                            android:layout_marginTop="20dp"
-                            app:srcCompat="@drawable/cat" />
-
-                        <TextView
-                            android:id="@+id/textView4"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="24dp"
-                            android:fontFamily="@font/sfpro_text_semibold"
-                            android:text="Veterinary Drugs"
-                            android:textAlignment="viewEnd"
-                            android:textColor="#1A1A1A"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-
+                    <TextView
+                        android:id="@+id/veterinaryDrugsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/sfpro_text_semibold"
+                        android:text="Veterinary Drugs"
+                        android:textColor="#1A1A1A"
+                        android:textSize="14sp" />
                 </LinearLayout>
 
+                <!-- Optional: Add another button or leave space -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent" />
             </LinearLayout>
 
         </LinearLayout>

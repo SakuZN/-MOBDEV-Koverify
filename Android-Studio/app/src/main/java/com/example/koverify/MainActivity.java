@@ -5,7 +5,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +22,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String PREFS_NAME = "KoverifyPrefs";
+    private static final String KEY_NAVIGATED_TO_DASHBOARD = "navigatedToDashboard";
 
     private TextView prompt;
     private Button nextButton, skipButton;
@@ -43,6 +48,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Check if the user has already navigated to the dashboard
+        SharedPreferences preferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        if (preferences.getBoolean(KEY_NAVIGATED_TO_DASHBOARD, false)) {
+            navigateToDashboard();
+            return;
+        }
+
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -137,6 +150,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void navigateToDashboard() {
+        SharedPreferences preferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(KEY_NAVIGATED_TO_DASHBOARD, true);
+        editor.apply();
+
         Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
         startActivity(intent);
         finish();
