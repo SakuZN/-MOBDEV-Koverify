@@ -16,57 +16,106 @@
             android:id="@+id/dialogTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Filter Drug Products"
-            android:textSize="18sp"
-            android:textStyle="bold"
             android:layout_gravity="center_horizontal"
-            android:paddingBottom="16dp" />
+            android:paddingBottom="0dp"
+            android:text="Filter Drug Products"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <!-- Country of Origin Spinner -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Country of Origin" />
+            android:fontFamily="@font/sfpro_text_bold"
+            android:text="Country of Origin"
+            android:textColor="@color/black" />
+
         <Spinner
             android:id="@+id/countrySpinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/bordered"
+            android:padding="12dp" />
 
         <!-- Classification Spinner -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Classification" />
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/sfpro_text_bold"
+            android:text="Classification"
+            android:textColor="@color/black" />
+
         <Spinner
             android:id="@+id/classificationSpinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/bordered"
+            android:padding="12dp" />
 
         <!-- Issuance Date Picker -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Issuance Date" />
-        <EditText
-            android:id="@+id/issuanceDateEditText"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false"
-            android:clickable="true"
-            android:hint="Select Date" />
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sfpro_text_bold"
+                    android:textColor="@color/black"
+                    android:text="Issuance Date" />
+
+                <EditText
+                    android:id="@+id/issuanceDateEditText"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bordered"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:fontFamily="@font/sfpro_text_semibold"
+                    android:hint="Select Date"
+                    android:padding="12dp"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sfpro_text_bold"
+                    android:textColor="@color/black"
+                    android:text="Expiry Date" />
+
+                <EditText
+                    android:id="@+id/expiryDateEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bordered"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:fontFamily="@font/sfpro_text_semibold"
+                    android:hint="Select Date"
+                    android:padding="12dp"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
 
         <!-- Expiry Date Picker -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Expiry Date" />
-        <EditText
-            android:id="@+id/expiryDateEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="false"
-            android:clickable="true"
-            android:hint="Select Date" />
 
         <!-- Drug Type Spinner (Optional) -->
         <!-- Include this only if drug_type is "all" -->
@@ -74,12 +123,18 @@
             android:id="@+id/drugTypeLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/sfpro_text_bold"
+            android:textColor="@color/black"
             android:text="Drug Type"
             android:visibility="gone" />
+
         <Spinner
             android:id="@+id/drugTypeSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bordered"
+            android:padding="12dp"
             android:visibility="gone" />
 
         <!-- Buttons -->
@@ -93,15 +148,24 @@
 
             <Button
                 android:id="@+id/resetButton"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Reset" />
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_cancel"
+                android:fontFamily="@font/sfmono_bold"
+                android:text="RESET"
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/applyButton"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Apply" />
+                android:layout_weight="1"
+                android:background="@drawable/button_confirm"
+                android:fontFamily="@font/sfmono_bold"
+                android:text="SEARCH"
+                android:textColor="@color/white" />
 
         </LinearLayout>
 

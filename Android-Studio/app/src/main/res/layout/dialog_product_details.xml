@@ -14,11 +14,12 @@
             android:id="@+id/dialogTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Product Details"
-            android:textSize="18sp"
-            android:textStyle="bold"
             android:layout_gravity="center_horizontal"
-            android:paddingBottom="16dp" />
+            android:paddingBottom="0dp"
+            android:text="Product Details"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <!-- Loading Spinner -->
         <ProgressBar
@@ -48,7 +49,11 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/sfmono_medium"
                     android:text="Brand Name:"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <!-- Example Value -->
@@ -56,7 +61,10 @@
                     android:id="@+id/brandNameTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Bro is living!" />
+                    android:fontFamily="@font/inter_bold"
+                    android:text="Bro is living!"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
             </LinearLayout>
 
 
@@ -69,8 +77,9 @@
             android:id="@+id/okButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="OK"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/sfmono_bold"
+            android:text="OK" />
     </LinearLayout>
 
 </ScrollView>
