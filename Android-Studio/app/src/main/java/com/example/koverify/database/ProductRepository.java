@@ -74,7 +74,9 @@ public class ProductRepository {
                         ProductResponse productResponse = response.body();
                         Product product = productResponse.getProduct();
                         String productName = product.getProductName();
+                        System.out.println(productName);
                         String brandName = product.getGenericName();
+                        System.out.println(brandName);
 
                         if (productName != null || brandName != null) {
                             String searchQuery = (productName != null) ? productName : brandName;

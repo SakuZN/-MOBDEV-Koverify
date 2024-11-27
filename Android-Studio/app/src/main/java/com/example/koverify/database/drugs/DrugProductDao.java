@@ -133,7 +133,7 @@ public interface DrugProductDao {
             "hdi.distributor AS hdi_distributor " +
             "FROM drug_products dp " +
             "JOIN human_drug_info hdi ON dp.reg_num = hdi.reg_num " +
-            "WHERE dp.generic_name LIKE '%' || :search || '%' COLLATE NOCASE OR dp.brand_name LIKE '%' || :search || '%' COLLATE NOCASE LIMIT 1")
+            "WHERE dp.generic_name LIKE '%' || :search || '%' COLLATE NOCASE LIMIT 1")
     HumanDrug searchHumanDrug(String search);
 
     @Transaction
@@ -156,7 +156,7 @@ public interface DrugProductDao {
             "vdi.distributor AS vdi_distributor " +
             "FROM drug_products dp " +
             "JOIN vet_drug_info vdi ON dp.reg_num = vdi.reg_num " +
-            "WHERE dp.generic_name LIKE '%' || :search || '%' COLLATE NOCASE OR dp.brand_name LIKE '%' || :search || '%' COLLATE NOCASE LIMIT 1")
+            "WHERE dp.generic_name LIKE '%' || :search || '%' COLLATE NOCASE LIMIT 1")
     VetDrug searchVetDrug(String search);
     @Transaction
     @Query("UPDATE drug_products SET sku = :sku WHERE reg_num = :regNum")
