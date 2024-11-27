@@ -17,7 +17,7 @@ public interface FoodProductDao {
     @Query("SELECT * FROM food_products WHERE sku = :sku LIMIT 1")
     FoodProduct getFoodInfoSKU(String sku);
 
-    @Query("SELECT * FROM food_products WHERE product_name LIKE '%' || :search || '%' COLLATE NOCASE LIMIT 1")
+    @Query("SELECT * FROM food_products WHERE product_name LIKE '%' || :search || '%' COLLATE NOCASE AND sku IS NULL LIMIT 1")
     FoodProduct searchFoodProduct(String search);
 
     @Query("UPDATE food_products SET sku = :sku WHERE reg_num = :regNum")
