@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash_gradient"
+    tools:context=".MainActivity">
+
+    <!-- Prompt TextView -->
+    <TextView
+        android:id="@+id/prompt"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="96dp"
+        android:layout_marginBottom="-128dp"
+        android:fontFamily="@font/sfmono_bold"
+        android:gravity="start"
+        android:padding="16dp"
+        android:text="Welcome to Koverify"
+        android:textColor="@color/white"
+        android:textSize="36sp"
+        android:typeface="normal"
+        app:layout_constraintBottom_toTopOf="@+id/buttonContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0" />
+
+    <!-- Button Container (Skip and Next Buttons) -->
+    <LinearLayout
+        android:id="@+id/buttonContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/circleIndicators"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/prompt"
+        app:layout_constraintVertical_bias="0.1"> <!-- Reduced the vertical space -->
+
+        <!-- SKIP Button -->
+        <Button
+            android:id="@+id/skip"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/button_gradient"
+            android:fontFamily="@font/sfmono_bold"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:text="Skip »"
+            android:textAllCaps="false"
+            android:textColor="@android:color/black"
+            android:textSize="12sp" />
+
+        <!-- NEXT Button -->
+        <Button
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/button_gradient"
+            android:fontFamily="@font/sfmono_heavy"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="12dp"
+            android:text="Get Started →"
+            android:textAllCaps="false"
+            android:textColor="@android:color/black"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <!-- Circle Indicators -->
+    <LinearLayout
+        android:id="@+id/circleIndicators"
+        android:layout_width="99dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="16dp"
+        android:gravity="end"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.85"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonContainer">
+
+        <!-- Four Circles -->
+        <View
+            android:id="@+id/circle0"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/circle_inactive" />
+
+        <View
+            android:id="@+id/circle1"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/circle_inactive" />
+
+        <View
+            android:id="@+id/circle2"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/circle_inactive" />
+
+        <View
+            android:id="@+id/circle3"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:background="@drawable/circle_inactive" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
